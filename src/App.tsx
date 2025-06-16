@@ -14,7 +14,6 @@ export default function App() {
 
       <Container>
         <SpaceBetween size="s">
-          <span>Teste de componentes</span>
           <Input
             value={value}
             onChange={(event) => setValue(event.detail.value)}
