@@ -1,11 +1,7 @@
 import React from 'react';
-import SideNavigation from '@cloudscape-design/components/side-navigation';
+import { SideNavigation, type SideNavigationProps } from '@cloudscape-design/components';
 
-const Sidebar: React.FC = () => {
-  return (
-    <SideNavigation
-      header={{ text: 'Dashboards', href: '#' }}
-      items={[
+export const menuItens: SideNavigationProps.Item[] = [
         { type: 'link', text: 'Usuários & Permissões', href: '#usuarios' },
         { type: 'link', text: 'Dados Instituição', href: '#dados' },
         { type: 'link', text: 'Contas e vínculos', href: '#contas' },
@@ -18,7 +14,12 @@ const Sidebar: React.FC = () => {
         { type: 'link', text: 'Conectividade e Infra', href: '#infra' },
         { type: 'link', text: 'Suporte', href: '#suporte' },
         { type: 'link', text: 'Formador de mercado', href: '#formador' },
-      ]}
+]
+const Sidebar: React.FC = () => {
+  return (
+    <SideNavigation
+      header={{ text: 'Dashboards', href: '#' }}
+      items={menuItens}
     />
   );
 };
