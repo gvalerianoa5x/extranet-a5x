@@ -63,7 +63,6 @@ const BreadcrumbsComponent: React.FC = () => {
       <BreadcrumbGroup
             items={breadcrumbGroupItems}
             ariaLabel="Navegação hierárquica"
-            className=""
           />
     </div>
    
