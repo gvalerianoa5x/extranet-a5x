@@ -17,6 +17,12 @@ header {
   font-size:'14px'!important;
 }
 
+
+.custom-breadcrumb  svg {
+  color: #0000004D!important;
+  font-size: 10px;
+}
+
 .custom-breadcrumb a:hover {
   color: #0000004D!important;
   text-decoration: underline!important;
