@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { menuItens } from '../Sidebar';
 import type { SideNavigationProps } from '@cloudscape-design/components';
 import { BreadcrumbGroup } from '@cloudscape-design/components';
-import '../../index.css'
+import { menuItens } from '../Sidebar';
+import { normalizeMenuItens } from '../../utils/normalizeMenu';
+import '../../index.css';
 
 function isLink(item: SideNavigationProps.Item): item is SideNavigationProps.Link {
   return item.type === 'link';
@@ -35,6 +36,7 @@ function findItemPathByHref(
 
 const BreadcrumbsComponent: React.FC = () => {
   const [currentHash, setCurrentHash] = useState(window.location.hash || '#');
+  const normalizedItems = normalizeMenuItens(menuItens);
 
   useEffect(() => {
     const onHashChange = () => setCurrentHash(window.location.hash || '#');
@@ -42,9 +44,9 @@ const BreadcrumbsComponent: React.FC = () => {
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
-  const dashboardBreadcrumb: SideNavigationProps.Link = { type: 'link', text: 'Dashboards', href: '#' };
+  const dashboardBreadcrumb: SideNavigationProps.Link = { type: 'link', text: 'A5X', href: '#' };
 
-  const path = findItemPathByHref(menuItens, currentHash) || [];
+  const path = findItemPathByHref(normalizedItems, currentHash) || [];
 
   const breadcrumbItems: SideNavigationProps.Item[] = [dashboardBreadcrumb, ...path];
 
@@ -59,15 +61,13 @@ const BreadcrumbsComponent: React.FC = () => {
     });
 
   return (
-    <div className='py-2 px-6 bg-neutral-5 custom-breadcrumb'>
+    <div className="py-2 px-6 bg-neutral-5 custom-breadcrumb">
       <BreadcrumbGroup
-            items={breadcrumbGroupItems}
-            ariaLabel="Navegação hierárquica"
-          />
+        items={breadcrumbGroupItems}
+        ariaLabel="Navegação hierárquica"
+      />
     </div>
-   
   );
 };
-
 
 export default BreadcrumbsComponent;
