@@ -34,3 +34,11 @@ body {
 [class^="awsui_root"] > [class^="awsui_input_"] {
   background: #3D3375 !important;
 }
+
+a > [class^="awsui_title_"] {
+  font-size: 0.875rem !important;
+}
+
+a > [class^="awsui_logo_"] {
+  border-radius: 5rem !important;
+}

@@ -18,7 +18,19 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-export const menuItens = [
+// Tipagem do item de menu
+type MenuItem = {
+  text: string;
+  href?: string;
+  icon?: React.ReactNode;
+  submenu?: MenuItem[];
+};
+
+// Tipagem dos tipos de menu ativos
+type MenuType = "main-menu" | "submenu";
+
+// Lista de itens
+export const menuItens: MenuItem[] = [
   {
     text: "Dashboards",
     icon: <LayoutDashboard size={16} />,
@@ -60,30 +72,19 @@ export const menuItens = [
 ];
 
 const Sidebar = () => {
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [hoveredItem, setHoveredItem] = useState<MenuItem | null>(null);
   const [activeMenu, setActiveMenu] = useState<"main" | "submenu">("main");
-  const [currentSubmenu, setCurrentSubmenu] = useState([]);
-  const [submenuTitle, setSubmenuTitle] = useState("");
-  const sidebarRef = useRef(null);
-  
-/* Caso precise que resete o menu ao interagir fora do menu
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
-        setHoveredItem(null);
-        setActiveMenu("main");
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);*/
+  const [currentSubmenu, setCurrentSubmenu] = useState<MenuItem[]>([]);
+  const [submenuTitle, setSubmenuTitle] = useState<string>("");
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmenuClick = (parentItem) => {
-    console.log(parentItem)
-    setCurrentSubmenu(parentItem.submenu);
-    setSubmenuTitle(parentItem.text);
-    setActiveMenu("submenu");
-    setHoveredItem(null);
+  const handleSubmenuClick = (parentItem: MenuItem) => {
+    if (parentItem.submenu) {
+      setCurrentSubmenu(parentItem.submenu);
+      setSubmenuTitle(parentItem.text);
+      setActiveMenu("submenu");
+      setHoveredItem(null);
+    }
   };
 
   const goBack = () => {
@@ -92,10 +93,9 @@ const Sidebar = () => {
     setSubmenuTitle("");
   };
 
-  const resetMenu = (menuType) => {
+  const resetMenu = (menuType: MenuType) => {
     setHoveredItem(null);
-    if(menuType == "main-menu")
-      setActiveMenu("main");
+    if (menuType === "main-menu") setActiveMenu("main");
   };
 
   return (
@@ -128,7 +128,6 @@ const Sidebar = () => {
               )}
             </div>
 
-            {/* Flyout submenu */}
             {item.submenu && hoveredItem?.text === item.text && (
               <div className="absolute left-full top-0 w-56 bg-white border rounded shadow z-50">
                 {item.submenu.map((sub) => (
@@ -138,9 +137,8 @@ const Sidebar = () => {
                       if (sub.href) {
                         handleSubmenuClick(item);
                         window.location.hash = sub.href;
-                        resetMenu('submenu'); // fecha o submenu ao clicar
+                        resetMenu("submenu");
                       } else if (sub.submenu) {
-                        window.location.hash = sub.href;
                         handleSubmenuClick(item);
                       }
                     }}
@@ -156,7 +154,6 @@ const Sidebar = () => {
         ))}
       </ul>
 
-      {/* Slide-in submenu */}
       {activeMenu === "submenu" && (
         <div className="absolute top-0 left-0 w-full h-full bg-white transition-transform duration-300 z-40">
           <div className="p-4">

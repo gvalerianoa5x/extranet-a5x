@@ -27,20 +27,11 @@ const Topbar: React.FC = () => {
     <div className="relative z-50">
       <TopNavigation
         identity={{
-          title: (
-            <div className="flex flex-row justify-between items-center">
-              <Avatar
-              ariaLabel="Avatar Corretora"
-              imgUrl="/corretora.png"
-              />
-              <span
-                onClick={() => console.log("Corretora")}
-                className="text-sm ml-2"
-              >
-                Rico Investimentos ▼
-              </span>
-            </div>
-          ),
+          title: "Rico Investimentos ▼",
+          logo: {
+            src: "/corretora.png",
+            alt: "Logo da Corretora",
+          },
           href: "#",
         }}
         i18nStrings={{
