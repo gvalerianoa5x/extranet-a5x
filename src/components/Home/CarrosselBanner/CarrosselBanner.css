@@ -1,0 +1,150 @@
+.carrossel-container {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.carrossel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 10rem; 
+  display: flex;
+  gap: 0.8rem; 
+  margin-bottom: 1.875rem;
+}
+
+.carrossel-content-area {
+  position: relative;
+  width: 93%; 
+  height: 100%;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-size: cover;
+  background-position: left center;
+}
+
+.carrossel-nav-area {
+  position: relative;
+  width: 7%; 
+  height: 100%;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-size: cover;
+  background-position: right center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.carrossel-nav-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3); 
+  z-index: 1;
+}
+
+.carrossel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(3, 8, 26, 0.95) 0%, rgba(3, 8, 26, 0.7) 50%, rgba(3, 8, 26, 0.4) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5rem;
+}
+
+.carrossel-content {
+  max-width: 60%;
+  color: white;
+}
+
+.carrossel-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.carrossel-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.carrossel-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.carrossel-button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+
+.carrossel-button:hover {
+  background-color: #106ebe;
+  transform: translateY(-0.125rem);
+}
+
+.nav-button {
+  position: relative;
+  width: 2rem; 
+  height: 2rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.9); 
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.2s ease;
+  margin: 0.25rem 0; 
+}
+
+.nav-button:hover {
+  background-color: #000;
+}
+
+@media (max-width: 768px) {
+  .carrossel-content-area {
+    width: 90%;
+  }
+  
+  .carrossel-nav-area {
+    width: 10%;
+  }
+
+  .carrossel-overlay {
+    padding: 0 2rem;
+  }
+  
+  .carrossel-content {
+    max-width: 100%;
+  }
+  
+  .carrossel-title {
+    font-size: 1.25rem;
+  }
+  
+  .carrossel-description {
+    font-size: 0.875rem;
+  }
+}

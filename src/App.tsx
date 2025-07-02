@@ -1,7 +1,10 @@
-import Topbar from "./components/Topbar/Topbar";
-import Sidebar from "./components/Topbar/Sidebar";
-import BreadcrumbsComponent from "./components/Topbar/BreadCrumber/BreadCrumber";
+import CarrosselBanner from "./components/Home/CarrosselBanner/CarrosselBanner";
 import { SnackBarAlert } from "./components/Home/Snackbar/Snackbar";
+
+import Sidebar from "./components/Base/Topbar/Sidebar";
+import Topbar from "./components/Base/Topbar/Topbar";
+import BreadcrumbsComponent from "./components/Base/Topbar/BreadCrumber/BreadCrumber";
+
 
 export default function App() {
   function handleActionClick(): void {
@@ -9,17 +12,17 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div className="flex flex-col h-screen">
       <Topbar />
       <BreadcrumbsComponent />
-      <div style={{ display: 'flex', flex: 1, gap: 24 }}>
+      <div className="flex flex-1 bg-[#EDEDED]">
         <Sidebar />
-        <div className="w-full p-4">
-           <SnackBarAlert
-            message="Este é um exemplo de alerta com ícone, mensagem e botão."
-            buttonText="Clique aqui"
-            onButtonClick={handleActionClick}
-            type="warning" title={""}      />
+        <div className="flex-1 p-5 overflow-auto">
+          <div className="pb-5">
+            <SnackBarAlert buttonText="buttom" onButtonClick={() => {}} message={"Header message"} type="warning"/>
+          </div>
+
+          <CarrosselBanner />
         </div>
       </div>
     </div>

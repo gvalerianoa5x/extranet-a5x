@@ -1,7 +1,7 @@
 import { Alert } from "@cloudscape-design/components";
 
 interface SnackBarAlertProps {
-  title: string;
+  title?: string;
   message: string;
   buttonText?: string;
   onButtonClick?: () => void;
