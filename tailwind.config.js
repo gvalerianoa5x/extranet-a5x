@@ -8,6 +8,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        'primary': {
+          1: '#0C0052'
+        },
         'neutral': {
           3: '#0000004D',
           5: '#0000000D'

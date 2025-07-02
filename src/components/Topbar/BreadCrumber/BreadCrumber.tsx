@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { menuItens } from '../Sidebar';
 import type { SideNavigationProps } from '@cloudscape-design/components';
 import { BreadcrumbGroup } from '@cloudscape-design/components';
-import '../../index.css'
+import '../../../index.css'
 
 function isLink(item: SideNavigationProps.Item): item is SideNavigationProps.Link {
   return item.type === 'link';
