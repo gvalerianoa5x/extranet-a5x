@@ -10,7 +10,6 @@ interface BannerItem {
   buttonLink: string;
 }
 
-// Dados mockados
 const mockBanners: BannerItem[] = [
   {
     id: 1,
@@ -49,9 +48,7 @@ const CarrosselBanner: React.FC = () => {
     //   const data = await response.json();
     //   setBanners(data);
     // };
-    // fetchBanners();
-    
-    // Dados mockados
+    // fetchBanners();        
     setBanners(mockBanners);
   }, []);
 
@@ -75,8 +72,7 @@ const CarrosselBanner: React.FC = () => {
   
   return (
     <div className="carrossel-container">
-      <div className="carrossel-wrapper">
-        {/* Área principal com conteúdo e overlay gradiente */}
+      <div className="carrossel-wrapper">        
         <div 
           className="carrossel-content-area"
           style={{backgroundImage: `url(${currentBanner.imageUrl})`}}
@@ -94,13 +90,11 @@ const CarrosselBanner: React.FC = () => {
             </div>
           </div>
         </div>
-        
-        {/* Área clara à direita com os botões de navegação */}
+                
         <div 
           className="carrossel-nav-area"
           style={{backgroundImage: `url(${currentBanner.imageUrl})`}}
-        >
-          {/* Botões de navegação */}
+        >          
           <button className="nav-button prev" onClick={prevSlide} aria-label="Anterior">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
