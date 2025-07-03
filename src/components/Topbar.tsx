@@ -2,26 +2,31 @@ import React, { useState, useRef, useEffect } from "react";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
 import Input from "@cloudscape-design/components/input";
 import Avatar from "@cloudscape-design/chat-components/avatar";
-import {
-  User,
-  Star,
-  Lock,
-  LogOut,
-} from "lucide-react";
+import { User, Star, Lock, LogOut } from "lucide-react";
+import ModaisSelecao from "./ModaisSelecao";
 
-const Topbar: React.FC = () => {
+interface TopbarProps { }
+
+const Topbar: React.FC<TopbarProps> = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
         setUserMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <div className="relative z-50">
@@ -33,6 +38,10 @@ const Topbar: React.FC = () => {
             alt: "Logo da Corretora",
           },
           href: "#",
+          onFollow: (e) => {
+            e.preventDefault();
+            handleOpenModal();
+          },
         }}
         i18nStrings={{
           searchIconAriaLabel: "Buscar",
@@ -79,19 +88,19 @@ const Topbar: React.FC = () => {
           ref={userMenuRef}
           className="absolute top-[56px] right-4 w-64 rounded-xl border border-gray-200 shadow-xl backdrop-blur-md bg-white/40"
         >
-          {/* Header */}
           <div className="flex items-center gap-4 px-4 py-3 border-b border-gray-100">
             <Avatar
-                ariaLabel="Avatar of John Doe"
-                tooltipText="Usuario teste"
-              />
+              ariaLabel="Avatar of John Doe"
+              tooltipText="Usuario teste"
+            />
             <div className="flex flex-col">
-              <span className="font-semibold text-sm text-black">Usuario de teste</span>
+              <span className="font-semibold text-sm text-black">
+                Usuario de teste
+              </span>
               <span className="text-xs text-gray-500">A5X / Developer</span>
             </div>
           </div>
 
-          {/* Menu Items */}
           <div className="flex flex-col py-1">
             <MenuItem icon={<User size={18} />} label="Minha conta" />
             <MenuItem icon={<Star size={18} />} label="Meus favoritos" />
@@ -100,8 +109,24 @@ const Topbar: React.FC = () => {
 
           <hr className="my-1 border-gray-200" />
 
-          {/* Logout */}
           <MenuItem icon={<LogOut size={18} />} label="Sair da ferramenta" />
+        </div>
+      )}
+
+      {/* Modal com fundo totalmente preto */}
+      {isModalOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 1)', // fundo preto sólido
+            zIndex: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ModaisSelecao onFinalizar={handleCloseModal} />
         </div>
       )}
     </div>
