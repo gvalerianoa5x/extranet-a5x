@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
 import Input from "@cloudscape-design/components/input";
 import Avatar from "@cloudscape-design/chat-components/avatar";
 import { User, Star, Lock, LogOut } from "lucide-react";
-import ModaisSelecao from "./ModaisSelecao";
 
-interface TopbarProps { }
+interface TopbarProps {
+  onClickTitle: () => void;
+}
 
-const Topbar: React.FC<TopbarProps> = () => {
+function Topbar({ onClickTitle }: TopbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,9 +25,6 @@ const Topbar: React.FC<TopbarProps> = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
   return (
     <div className="relative z-50">
       <TopNavigation
@@ -40,7 +37,7 @@ const Topbar: React.FC<TopbarProps> = () => {
           href: "#",
           onFollow: (e) => {
             e.preventDefault();
-            handleOpenModal();
+            onClickTitle();
           },
         }}
         i18nStrings={{
@@ -89,14 +86,9 @@ const Topbar: React.FC<TopbarProps> = () => {
           className="absolute top-[56px] right-4 w-64 rounded-xl border border-gray-200 shadow-xl backdrop-blur-md bg-white/40"
         >
           <div className="flex items-center gap-4 px-4 py-3 border-b border-gray-100">
-            <Avatar
-              ariaLabel="Avatar of John Doe"
-              tooltipText="Usuario teste"
-            />
+            <Avatar ariaLabel="Avatar of John Doe" tooltipText="Usuario teste" />
             <div className="flex flex-col">
-              <span className="font-semibold text-sm text-black">
-                Usuario de teste
-              </span>
+              <span className="font-semibold text-sm text-black">Usuario de teste</span>
               <span className="text-xs text-gray-500">A5X / Developer</span>
             </div>
           </div>
@@ -112,40 +104,25 @@ const Topbar: React.FC<TopbarProps> = () => {
           <MenuItem icon={<LogOut size={18} />} label="Sair da ferramenta" />
         </div>
       )}
-
-      {/* Modal com fundo totalmente preto */}
-      {isModalOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0, 0, 0, 1)', // fundo preto sólido
-            zIndex: 40,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <ModaisSelecao onFinalizar={handleCloseModal} />
-        </div>
-      )}
     </div>
   );
-};
+}
 
 interface MenuItemProps {
   icon: React.ReactNode;
   label: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ icon, label }) => (
-  <div
-    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 cursor-pointer transition-colors"
-    onClick={() => console.log(label)}
-  >
-    <span className="text-gray-600">{icon}</span>
-    <span>{label}</span>
-  </div>
-);
+function MenuItem({ icon, label }: MenuItemProps) {
+  return (
+    <div
+      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 cursor-pointer transition-colors"
+      onClick={() => console.log(label)}
+    >
+      <span className="text-gray-600">{icon}</span>
+      <span>{label}</span>
+    </div>
+  );
+}
 
 export default Topbar;

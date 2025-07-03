@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
 import BreadcrumbsComponent from "./components/BreadCrumber/BreadCrumber";
@@ -24,7 +24,19 @@ export default function App() {
       </div>
 
       {exibirModais && (
-        <ModaisSelecao onFinalizar={() => setExibirModais(false)} />
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            zIndex: 40,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ModaisSelecao onFinalizar={() => setExibirModais(false)} />
+        </div>
       )}
     </div>
   );

@@ -17,7 +17,6 @@ const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
         { value: '004', label: '411 / Rico Investimentos' },
         { value: '005', label: '999 / Nova Corretora' },
         { value: '006', label: '123 / Outra Corretora' },
-        { value: '007', label: '456 / Mais Uma Corretora' },
     ];
 
     const tiposFixos = [
@@ -129,7 +128,11 @@ const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
             {step === 1 && (
                 <div style={containerStyle}>
                     <div style={headerStyle}>
-                        <img src="/corretora.png" alt="Logo" style={logoStyle} />
+                        <img
+                            src="/logoa5x.png"
+                            alt="Logo"
+                            style={logoStyle}
+                        />
                         <div style={titleContainerStyle}>
                             <div style={titleStyle}>Selecionar Instituição</div>
                             <div style={subtitleStyle}>Tipo Participação</div>
@@ -167,7 +170,11 @@ const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
             {step === 2 && participantCode && (
                 <div style={containerStyle}>
                     <div style={headerStyle}>
-                        <img src="/corretora.png" alt="Logo" style={logoStyle} />
+                        <img
+                            src="/corretora.png"
+                            alt="Logo"
+                            style={logoStyle}
+                        />
                         <div style={titleContainerStyle}>
                             <div style={titleStyle}>{participantCode.label}</div>
                             <div style={subtitleStyle}>Tipo Participação</div>
@@ -229,7 +236,11 @@ const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
             {step === 3 && participantCode && participationType && (
                 <div style={containerStyle}>
                     <div style={headerStyle}>
-                        <img src="/corretora.png" alt="Logo" style={logoStyle} />
+                        <img
+                            src="/corretora.png"
+                            alt="Logo"
+                            style={logoStyle}
+                        />
                         <div style={titleContainerStyle}>
                             <div style={titleStyle}>{participantCode.label}</div>
                             <div style={subtitleStyle}>{participationType.label}</div>
