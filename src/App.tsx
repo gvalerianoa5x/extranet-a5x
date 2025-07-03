@@ -17,26 +17,14 @@ export default function App() {
 
       <div className="flex flex-1 bg-[#EDEDED]">
         <Sidebar />
-        <div className="flex-1 p-5 overflow-auto">
+        <div className="flex-1 p-5 overflow-auto w-full">
           <CarrosselBanner />
           <Cards />
         </div>
       </div>
 
       {exibirModais && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            backgroundColor: "rgba(0, 0, 0, 1)",
-            zIndex: 40,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <ModaisSelecao onFinalizar={() => setExibirModais(false)} />
-        </div>
+        <ModaisSelecao onFinalizar={() => setExibirModais(false)} />
       )}
     </div>
   );
