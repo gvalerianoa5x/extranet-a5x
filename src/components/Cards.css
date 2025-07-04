@@ -1,0 +1,15 @@
+
+.card-container > div,
+.card-container > div > div {
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+:root {
+  --border-radius-container: 8px;
+}
+
+.meus-chamados-card {
+  border-radius: 8px;
+  overflow: hidden;
+}

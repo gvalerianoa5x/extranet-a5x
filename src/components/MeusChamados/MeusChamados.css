@@ -1,0 +1,163 @@
+.meus-chamados-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.meus-chamados-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.meus-chamados-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.meus-chamados-titulo h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #212121;
+}
+
+.novo-chamado-link {
+  color: #0052CC;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.novo-chamado-link:hover {
+  text-decoration: underline;
+}
+
+.meus-chamados-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chamado-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.chamado-item:last-child {
+  border-bottom: none;
+}
+
+.chamado-info {
+  flex: 1;
+}
+
+.chamado-cabecalho {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  color: #757575;
+  font-size: 14px;
+}
+
+.chamado-data {
+  font-weight: 500;
+}
+
+.chamado-separador {
+  margin: 0 8px;
+  color: #bdbdbd;
+}
+
+.chamado-id {
+  font-weight: 500;
+}
+
+.chamado-descricao {
+  color: #616161;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.chamado-status {
+  min-width: 120px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.meus-chamados-paginacao {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-paginacao {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  color: #616161;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-paginacao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-paginacao.ativo {
+  background-color: #0052CC;
+  color: white;
+  border-color: #0052CC;
+}
+
+.btn-paginacao:hover:not(:disabled):not(.ativo) {
+  background-color: #f5f5f5;
+}
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  background-color: white; 
+}
+
+.status-badge.em-andamento {
+  border: 1px solid #F89256; 
+  color: #F89256;
+}
+
+.status-badge.concluido {
+  border: 1px solid #00802F;
+  color: #00802F;
+}
+
+.status-badge.cancelado {
+  border: 1px solid #656871;
+  color:#656871;
+}
+
+.status-badge svg {
+  width: 16px;
+  height: 16px;
+}
