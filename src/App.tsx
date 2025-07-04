@@ -1,15 +1,17 @@
 import { useState } from "react";
-import Topbar from "./components/Topbar";
-import Sidebar from "./components/Sidebar";
-import BreadcrumbsComponent from "./components/BreadCrumber/BreadCrumber";
-import CarrosselBanner from "./components/CarrosselBanner/CarrosselBanner";
-import ModaisSelecao from "./components/ModaisSelecao";
-import Card from "./components/Card";
-import UltimasPaginas from "./components/UltimasPaginas";
+
+import ModaisSelecao from "./components/Base/ModaisSelecao";
+import Card from "./components/Base/Cards/CardContainer";
+import UltimasPaginas from "./components/Base/Cards/UltimasPaginas";
 import { Clock, ListChecks, MessageSquare, Truck } from "lucide-react";
-import TarefasProducao from "./components/TarefasProducao";
-import AlertasDashboard from "./components/AlertasDashboard";
-import MeusChamados from "./components/MeusChamados";
+import TarefasProducao from "./components/Base/Cards/TarefasProducao";
+import AlertasDashboard from "./components/Base/Cards/AlertasDashboard";
+import MeusChamados from "./components/Base/Cards/MeusChamados";
+import { SnackBarAlert } from "./components/Home/Snackbar/Snackbar";
+import BreadcrumbsComponent from "./components/Base/Topbar/BreadCrumber/BreadCrumber";
+import Topbar from "./components/Base/Topbar/Topbar";
+import CarrosselBanner from "./components/Home/CarrosselBanner/CarrosselBanner";
+import Sidebar from "./components/Base/Topbar/Sidebar";
 
 export default function App() {
   const [exibirModais, setExibirModais] = useState(true);
@@ -19,6 +21,9 @@ export default function App() {
     environmentType: any;
   } | null>(null);
 
+  function handleActionClick(): void {
+    throw new Error("Function not implemented.");
+  }
   return (
     <div className="flex flex-col h-screen">
       <Topbar
@@ -38,6 +43,9 @@ export default function App() {
           permissionRule={`${dadosSelecionados?.participantCode.value}`}
         />
         <div className="flex-1 p-5 overflow-auto">
+          <div className="pb-5">
+            <SnackBarAlert buttonText="buttom" onButtonClick={handleActionClick} message={"Header message"} type="warning"/>
+          </div>
           <CarrosselBanner />
           <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
