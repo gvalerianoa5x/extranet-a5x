@@ -11,6 +11,7 @@ import BreadcrumbsComponent from "./components/Base/Topbar/BreadCrumber/BreadCru
 import Topbar from "./components/Base/Topbar/Topbar";
 import CarrosselBanner from "./components/Home/CarrosselBanner/CarrosselBanner";
 import Sidebar from "./components/Base/Topbar/Sidebar";
+import Atalhos from "./components/Base/Topbar/Atalhos";
 
 export default function App() {
   const [exibirModais, setExibirModais] = useState(true);
@@ -40,6 +41,7 @@ export default function App() {
           dadosSelecionados ? `${dadosSelecionados.environmentType.label}` : ""
         }
       />
+
       <div className="flex flex-row items-center w-full">
         <div className="p-4 bg-neutral-5">
           <button
@@ -51,21 +53,25 @@ export default function App() {
         </div>
         <BreadcrumbsComponent />
       </div>
+
       <div className="flex flex-1 bg-[#EDEDED]">
         <Sidebar
           permissionRule={`${dadosSelecionados?.participantCode.value}`}
           isCollapsed={isSidebarCollapsed}
         />
-        <div className="flex-1 p-5 overflow-auto">
-          <div className="pb-5">
-            <SnackBarAlert 
-              buttonText="buttom" 
-              onButtonClick={handleActionClick} 
-              message={"Header message"} 
-              type="warning"
-            />
-          </div>
+
+        <div className="flex-1 p-5 overflow-auto space-y-5">
+          <Atalhos />
+
+          <SnackBarAlert
+            buttonText="buttom"
+            onButtonClick={handleActionClick}
+            message={"Header message"}
+            type="warning"
+          />
+
           <CarrosselBanner />
+
           <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
               <UltimasPaginas />
@@ -73,7 +79,6 @@ export default function App() {
             <Card title="Alertas da bolsa" icon={<Truck size={16} />}>
               <AlertasDashboard />
             </Card>
-
             <Card title="Meus chamados" icon={<MessageSquare size={16} />}>
               <MeusChamados />
             </Card>
