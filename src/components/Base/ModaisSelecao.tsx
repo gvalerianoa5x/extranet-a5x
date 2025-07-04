@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
 interface Props {
-    onFinalizar: () => void;
-}
+    onFinalizar: (data: {
+      participantCode: any;
+      participationType: any;
+      environmentType: any;
+    }) => void;
+  }
 
 const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
     const [step, setStep] = useState(1);
@@ -35,16 +39,16 @@ const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
         setStep(1);
         setParticipantCode(null);
         setParticipationType(null);
-        onFinalizar();
     };
 
     const salvarConfiguracao = (ambienteSelecionado: any) => {
-        console.log('Redirecionar com filtros:', {
+        const selectedData = {
             participantCode,
             participationType,
             environmentType: ambienteSelecionado,
-        });
+        };
 
+        onFinalizar(selectedData);
         fechar();
     };
 

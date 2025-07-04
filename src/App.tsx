@@ -1,33 +1,69 @@
 import { useState } from "react";
 
-import ModaisSelecao from "./components/ModaisSelecao";
+import ModaisSelecao from "./components/Base/ModaisSelecao";
+import Card from "./components/Base/Cards/CardContainer";
+import UltimasPaginas from "./components/Base/Cards/UltimasPaginas";
+import { Clock, ListChecks, MessageSquare, Truck } from "lucide-react";
+import TarefasProducao from "./components/Base/Cards/TarefasProducao";
+import AlertasDashboard from "./components/Base/Cards/AlertasDashboard";
+import MeusChamados from "./components/Base/Cards/MeusChamados";
 import { SnackBarAlert } from "./components/Home/Snackbar/Snackbar";
 import BreadcrumbsComponent from "./components/Base/Topbar/BreadCrumber/BreadCrumber";
 import Topbar from "./components/Base/Topbar/Topbar";
 import CarrosselBanner from "./components/Home/CarrosselBanner/CarrosselBanner";
-import Cards from "./components/Base/Cards";
 import Sidebar from "./components/Base/Topbar/Sidebar";
 
 export default function App() {
-  const [exibirModais, setExibirModais] = useState(false);
+  const [exibirModais, setExibirModais] = useState(true);
+  const [dadosSelecionados, setDadosSelecionados] = useState<{
+    participantCode: any;
+    participationType: any;
+    environmentType: any;
+  } | null>(null);
 
   function handleActionClick(): void {
     throw new Error("Function not implemented.");
   }
   return (
     <div className="flex flex-col h-screen">
-      <Topbar onClickTitle={() => setExibirModais(true)} />
+      <Topbar
+        onClickTitle={() => setExibirModais(true)}
+        titulo={
+          dadosSelecionados ? `${dadosSelecionados.participantCode.label}` : ""
+        }
+        envType={
+          dadosSelecionados ? `${dadosSelecionados.environmentType.label}` : ""
+        }
+      />
 
       <BreadcrumbsComponent />
 
       <div className="flex flex-1 bg-[#EDEDED]">
-        <Sidebar />
+        <Sidebar
+          permissionRule={`${dadosSelecionados?.participantCode.value}`}
+        />
         <div className="flex-1 p-5 overflow-auto">
           <div className="pb-5">
             <SnackBarAlert buttonText="buttom" onButtonClick={handleActionClick} message={"Header message"} type="warning"/>
           </div>
           <CarrosselBanner />
-          <Cards />
+          <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
+              <UltimasPaginas />
+            </Card>
+
+            <Card title="Tarefas produção" icon={<ListChecks size={16} />}>
+              <TarefasProducao />
+            </Card>
+
+            <Card title="Alertas da bolsa" icon={<Truck size={16} />}>
+              <AlertasDashboard />
+            </Card>
+
+            <Card title="Meus chamados" icon={<MessageSquare size={16} />}>
+              <MeusChamados />
+            </Card>
+          </div>
         </div>
       </div>
 
@@ -43,7 +79,12 @@ export default function App() {
             justifyContent: "center",
           }}
         >
-          <ModaisSelecao onFinalizar={() => setExibirModais(false)} />
+          <ModaisSelecao
+            onFinalizar={(dados) => {
+              setDadosSelecionados(dados);
+              setExibirModais(false);
+            }}
+          />
         </div>
       )}
     </div>
