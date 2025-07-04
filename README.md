@@ -8,6 +8,8 @@ O projeto consiste no desenvolvimento de um portal extranet para unificar as apl
 
 - [Guilherme Valeriano](https://www.github.com/gvaleriano)
 - [Leonardo Marfil](https://www.github.com/Leofla1706)
+- [Rebeca Souza](https://github.com/rebecasouzacoder)
+- [Marcelo Oliveira](https://github.com/Marcelo701500)
 
 
 ## FAQ
@@ -16,13 +18,18 @@ O projeto consiste no desenvolvimento de um portal extranet para unificar as apl
 
 npm install
 
+#### Execução do projeto
+
+npm run dev
+npm run build
+
 #### Design System
 
 [CloudScape](https://cloudscape.design/)
 
 #### Bibliotecas adicionais
 
-#TODO
+[Lucide React Icons](https://lucide.dev/)
 
 
 ## Funcionalidades
