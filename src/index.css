@@ -6,8 +6,8 @@
   box-sizing: border-box;
 }
 
-header {
-  background: #0C0052 !important;
+[class^='awsui_top-navigation'] {
+  border: none !important;
 }
 
 body {
@@ -32,7 +32,7 @@ body {
 }
 
 [class^="awsui_root"] > [class^="awsui_input_"] {
-  background: #3D3375 !important;
+  border: none !important;
 }
 
 a > [class^="awsui_title_"] {

@@ -6,13 +6,33 @@ import { User, Star, Lock, LogOut } from "lucide-react";
 
 interface TopbarProps {
   onClickTitle: () => void;
+  titulo: string;
+  envType:string;
 }
 
-function Topbar({ onClickTitle }: TopbarProps) {
+function Topbar({ onClickTitle, titulo, envType }: TopbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const [selectEnv, setSelectEnv] = useState(envType);
+
+  const handleChangeEnvironment = (env:string) =>{
+    if(env === 'Ambiente de Produção'){
+      setSelectEnv("Ambiente de Certificação")
+    }else{
+      setSelectEnv("Ambiente de Produção")
+    }
+}
 
   useEffect(() => {
+
+    if (envType === "Produção"){
+      setSelectEnv("Ambiente de Produção")
+    }else if(envType === ""){
+      setSelectEnv("")
+    }else{
+      setSelectEnv("Ambiente de Certificação")
+    }
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         userMenuRef.current &&
@@ -23,13 +43,55 @@ function Topbar({ onClickTitle }: TopbarProps) {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [envType]);
+
+  useEffect(() => {
+    const topNav = document.querySelector("header[class^='awsui_top-navigation_']") as HTMLElement;
+    if (topNav) {
+      topNav.style.background = selectEnv === "Ambiente de Certificação" ? "#00A4B7" : "#0C0052";
+    }
+
+    const inputEl = document.querySelectorAll('[class^="awsui_root"] > [class^="awsui_input_"]')[1] as HTMLElement;
+    if (inputEl) {
+      inputEl.style.background = selectEnv === "Ambiente de Certificação" ? "#33B6C5" : "#3D3375";
+      inputEl.style.color = selectEnv === "Ambiente de Certificação" ? "white" : "white";
+    }
+
+     // Placeholder do input de busca
+  const styleId = "custom-placeholder-style";
+  let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
+
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = styleId;
+    document.head.appendChild(styleEl);
+  }
+
+  styleEl.innerHTML = selectEnv === "Ambiente de Certificação"
+    ? `
+      input::placeholder {
+        color: #fff !important;
+        opacity: 1;
+      }
+
+      input:focus {
+        outline: none;
+        opacity: 1;
+      }
+    `
+    : `
+      input::placeholder {
+        color: #fff !important;
+        opacity: 1;
+      }
+    `;
+  }, [selectEnv]);
 
   return (
     <div className="relative z-50">
       <TopNavigation
         identity={{
-          title: "Rico Investimentos ▼",
+          title: titulo,
           logo: {
             src: "/corretora.png",
             alt: "Logo da Corretora",
@@ -51,10 +113,12 @@ function Topbar({ onClickTitle }: TopbarProps) {
         utilities={[
           {
             type: "menu-dropdown",
-            text: "Ambiente de produção",
-            items: [
+            text: selectEnv,
+            items: [selectEnv == 'Ambiente de Certificação' ? 
+              { id: "ambiente_producao", text: "Ambiente de Produção" } : 
               { id: "ambiente_certificacao", text: "Ambiente de Certificação" },
             ],
+            onItemClick: () => {handleChangeEnvironment(selectEnv)}
           },
           {
             type: "button",
@@ -76,6 +140,7 @@ function Topbar({ onClickTitle }: TopbarProps) {
             placeholder="Pesquise recursos, documentos, produtos e muito mais"
             ariaLabel="Buscar"
             value=""
+            onChange={(_e) => console.log(_e.target)}
           />
         }
       />
@@ -114,10 +179,15 @@ interface MenuItemProps {
 }
 
 function MenuItem({ icon, label }: MenuItemProps) {
+  const handleRedirectToSession = (redirectTo:string) =>{
+    if(redirectTo === 'Sair da ferramenta'){
+      window.location.href = "https://login-a5x.vercel.app/";
+    }
+  }
   return (
     <div
       className="flex items-center gap-3 px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 cursor-pointer transition-colors"
-      onClick={() => console.log(label)}
+      onClick={() => {handleRedirectToSession(label)}}
     >
       <span className="text-gray-600">{icon}</span>
       <span>{label}</span>

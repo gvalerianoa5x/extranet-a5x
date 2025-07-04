@@ -26,6 +26,10 @@ type MenuItem = {
   submenu?: MenuItem[];
 };
 
+interface SidebarProps {
+  permissionRule : string;
+}
+
 // Tipagem dos tipos de menu ativos
 type MenuType = "main-menu" | "submenu";
 
@@ -71,7 +75,7 @@ export const menuItens: MenuItem[] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({permissionRule}:SidebarProps) => {
   const [hoveredItem, setHoveredItem] = useState<MenuItem | null>(null);
   const [activeMenu, setActiveMenu] = useState<"main" | "submenu">("main");
   const [currentSubmenu, setCurrentSubmenu] = useState<MenuItem[]>([]);
@@ -91,20 +95,51 @@ const Sidebar = () => {
     setActiveMenu("main");
     setCurrentSubmenu([]);
     setSubmenuTitle("");
+    window.location.hash = "#";
   };
 
   const resetMenu = (menuType: MenuType) => {
     setHoveredItem(null);
     if (menuType === "main-menu") setActiveMenu("main");
   };
+  function seededRandom(seed: number): () => number {
+    return function () {
+      // Xorshift PRNG
+      seed ^= seed << 13;
+      seed ^= seed >> 17;
+      seed ^= seed << 5;
+      return Math.abs(seed) % 1000 / 1000;
+    };
+  }
+  
+  function getStableRandomMenu(menu: MenuItem[], permissionRule: string): MenuItem[] {
+    if (permissionRule === "006") return menu;
+  
+    const rng = seededRandom(parseInt(permissionRule, 36)); // Stable seed
+    const count = 1 + Math.floor(rng() * menu.length); // random between 1 and menu.length
+  
+    const indices = Array.from({ length: menu.length }, (_, i) => i);
+  
+    // Shuffle indices using the seeded random
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+  
+    const selectedSet = new Set(indices.slice(0, count));
+  
+    // Return items in original order
+    return menu.filter((_, i) => selectedSet.has(i));
+  }
 
+  const filteredMenu = getStableRandomMenu(menuItens, permissionRule);
   return (
     <div
       className="relative w-64 h-full bg-[#EDEDED] shadow z-10"
       ref={sidebarRef}
     >
       <ul className="py-2">
-        {menuItens.map((item) => (
+        {filteredMenu.map((item) => (
           <li
             key={item.text}
             className="group relative"
