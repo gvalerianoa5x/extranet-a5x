@@ -1,14 +1,19 @@
 import { useState } from "react";
-import Topbar from "./components/Topbar";
-import Sidebar from "./components/Sidebar";
-import BreadcrumbsComponent from "./components/BreadCrumber/BreadCrumber";
-import CarrosselBanner from "./components/CarrosselBanner/CarrosselBanner";
-import Cards from "./components/Cards";
+
 import ModaisSelecao from "./components/ModaisSelecao";
+import { SnackBarAlert } from "./components/Home/Snackbar/Snackbar";
+import BreadcrumbsComponent from "./components/Base/Topbar/BreadCrumber/BreadCrumber";
+import Topbar from "./components/Base/Topbar/Topbar";
+import CarrosselBanner from "./components/Home/CarrosselBanner/CarrosselBanner";
+import Cards from "./components/Base/Cards";
+import Sidebar from "./components/Base/Topbar/Sidebar";
 
 export default function App() {
   const [exibirModais, setExibirModais] = useState(false);
 
+  function handleActionClick(): void {
+    throw new Error("Function not implemented.");
+  }
   return (
     <div className="flex flex-col h-screen">
       <Topbar onClickTitle={() => setExibirModais(true)} />
@@ -18,6 +23,9 @@ export default function App() {
       <div className="flex flex-1 bg-[#EDEDED]">
         <Sidebar />
         <div className="flex-1 p-5 overflow-auto">
+          <div className="pb-5">
+            <SnackBarAlert buttonText="buttom" onButtonClick={handleActionClick} message={"Header message"} type="warning"/>
+          </div>
           <CarrosselBanner />
           <Cards />
         </div>

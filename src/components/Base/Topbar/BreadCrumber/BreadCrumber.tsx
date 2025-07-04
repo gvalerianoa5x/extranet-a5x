@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import type { SideNavigationProps } from '@cloudscape-design/components';
 import { BreadcrumbGroup } from '@cloudscape-design/components';
+
+
+import '../../../../index.css';
+import { normalizeMenuItens } from '../../../../utils/normalizeMenu';
 import { menuItens } from '../Sidebar';
-import { normalizeMenuItens } from '../../utils/normalizeMenu';
-import '../../index.css';
+
 
 function isLink(item: SideNavigationProps.Item): item is SideNavigationProps.Link {
   return item.type === 'link';
