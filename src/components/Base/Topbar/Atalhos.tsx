@@ -54,10 +54,7 @@ const Atalhos: React.FC = () => {
           ))}
         </div>
 
-        {/* Botão ainda sem ação */}
-        <button className="adicionar-atalho">
-          Adicionar atalho
-        </button>
+        <button className="adicionar-atalho">Adicionar atalho</button>
       </div>
 
       <style>{`
@@ -71,7 +68,7 @@ const Atalhos: React.FC = () => {
         .atalhos-header {
           display: flex;
           justify-content: space-between;
-          align-items: flex-start;
+          align-items: center; 
           flex-wrap: wrap;
         }
 
@@ -130,7 +127,8 @@ const Atalhos: React.FC = () => {
           cursor: pointer;
           font-size: 14px;
           white-space: nowrap;
-          margin-top: 4px;
+          align-self: center; 
+          margin-top: 0; 
         }
 
         .adicionar-atalho:hover {
