@@ -7,10 +7,6 @@ import BreadcrumbsComponent from "./components/Base/Topbar/BreadCrumber/BreadCru
 
 
 export default function App() {
-  function handleActionClick(): void {
-    throw new Error("Function not implemented.");
-  }
-
   return (
     <div className="flex flex-col h-screen">
       <Topbar />
