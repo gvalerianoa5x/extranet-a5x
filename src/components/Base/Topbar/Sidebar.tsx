@@ -27,7 +27,8 @@ type MenuItem = {
 };
 
 interface SidebarProps {
-  permissionRule : string;
+  permissionRule: string;
+  isCollapsed: boolean;
 }
 
 // Tipagem dos tipos de menu ativos
@@ -75,7 +76,7 @@ export const menuItens: MenuItem[] = [
   },
 ];
 
-const Sidebar = ({permissionRule}:SidebarProps) => {
+const Sidebar = ({ permissionRule, isCollapsed }: SidebarProps) => {
   const [hoveredItem, setHoveredItem] = useState<MenuItem | null>(null);
   const [activeMenu, setActiveMenu] = useState<"main" | "submenu">("main");
   const [currentSubmenu, setCurrentSubmenu] = useState<MenuItem[]>([]);
@@ -83,7 +84,7 @@ const Sidebar = ({permissionRule}:SidebarProps) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const handleSubmenuClick = (parentItem: MenuItem) => {
-    if (parentItem.submenu) {
+    if (parentItem.submenu && !isCollapsed) {
       setCurrentSubmenu(parentItem.submenu);
       setSubmenuTitle(parentItem.text);
       setActiveMenu("submenu");
@@ -102,6 +103,7 @@ const Sidebar = ({permissionRule}:SidebarProps) => {
     setHoveredItem(null);
     if (menuType === "main-menu") setActiveMenu("main");
   };
+
   function seededRandom(seed: number): () => number {
     return function () {
       // Xorshift PRNG
@@ -111,31 +113,39 @@ const Sidebar = ({permissionRule}:SidebarProps) => {
       return Math.abs(seed) % 1000 / 1000;
     };
   }
-  
+
   function getStableRandomMenu(menu: MenuItem[], permissionRule: string): MenuItem[] {
     if (permissionRule === "006") return menu;
-  
+
     const rng = seededRandom(parseInt(permissionRule, 36)); // Stable seed
     const count = 1 + Math.floor(rng() * menu.length); // random between 1 and menu.length
-  
+
     const indices = Array.from({ length: menu.length }, (_, i) => i);
-  
+
     // Shuffle indices using the seeded random
     for (let i = indices.length - 1; i > 0; i--) {
       const j = Math.floor(rng() * (i + 1));
       [indices[i], indices[j]] = [indices[j], indices[i]];
     }
-  
+
     const selectedSet = new Set(indices.slice(0, count));
-  
+
     // Return items in original order
     return menu.filter((_, i) => selectedSet.has(i));
   }
 
   const filteredMenu = getStableRandomMenu(menuItens, permissionRule);
+
+  // Reset to main menu when collapsed
+  if (isCollapsed && activeMenu === "submenu") {
+    goBack();
+  }
+
   return (
     <div
-      className="relative w-64 h-full bg-[#EDEDED] shadow z-10"
+      className={`relative h-full bg-[#EDEDED] shadow z-10 transition-all duration-300 ${
+        isCollapsed ? "w-16" : "w-64"
+      }`}
       ref={sidebarRef}
     >
       <ul className="py-2">
@@ -143,7 +153,7 @@ const Sidebar = ({permissionRule}:SidebarProps) => {
           <li
             key={item.text}
             className="group relative"
-            onMouseEnter={() => item.submenu && setHoveredItem(item)}
+            onMouseEnter={() => item.submenu && !isCollapsed && setHoveredItem(item)}
             onMouseLeave={() => item.submenu && setHoveredItem(null)}
           >
             <div
@@ -157,13 +167,17 @@ const Sidebar = ({permissionRule}:SidebarProps) => {
               className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               {item.icon}
-              <span className="ml-2 text-sm">{item.text}</span>
-              {item.submenu && (
-                <ChevronRight size={16} className="ml-auto opacity-50" />
+              {!isCollapsed && (
+                <>
+                  <span className="ml-2 text-sm">{item.text}</span>
+                  {item.submenu && (
+                    <ChevronRight size={16} className="ml-auto opacity-50" />
+                  )}
+                </>
               )}
             </div>
 
-            {item.submenu && hoveredItem?.text === item.text && (
+            {item.submenu && hoveredItem?.text === item.text && !isCollapsed && (
               <div className="absolute left-full top-0 w-56 bg-white border rounded shadow z-50">
                 {item.submenu.map((sub) => (
                   <div
@@ -189,7 +203,7 @@ const Sidebar = ({permissionRule}:SidebarProps) => {
         ))}
       </ul>
 
-      {activeMenu === "submenu" && (
+      {activeMenu === "submenu" && !isCollapsed && (
         <div className="absolute top-0 left-0 w-full h-full bg-white transition-transform duration-300 z-40">
           <div className="p-4">
             <button

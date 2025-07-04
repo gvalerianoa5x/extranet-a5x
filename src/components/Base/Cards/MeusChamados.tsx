@@ -6,8 +6,9 @@ const chamados = [
     data: '11/03',
     id: '#58213',
     descricao: 'Você possui uma novidade em seu chamado de revisão de limites.',
-    status: 'info',
+    status: 'pending',
     label: 'Em aberto',
+    color: 'blue'
   },
   {
     data: '11/03',
@@ -15,6 +16,7 @@ const chamados = [
     descricao: 'Seu chamado de envio de teste de estresse de liquidez foi finalizado com sucesso',
     status: 'success',
     label: 'Concluído',
+    color: 'green'
   },
   {
     data: '11/03',
@@ -22,14 +24,25 @@ const chamados = [
     descricao: 'Seu chamado de justificativa de estouro de saldo operacional concluído com sucesso.',
     status: 'success',
     label: 'Concluído',
+    color: 'green'
   },
   {
     data: '11/03',
     id: '#58213',
-    descricao: 'Chamado cancelado com sucesso.',
-    status: 'stopped',
-    label: 'Cancelado',
+    descricao: 'Chamado em andamento com sucesso.',
+    status: 'loading',
+    label: 'Em Andamento',
+    color: 'yellow'
   },
+  {
+    data: '11/03',
+    id: '#58213',
+    descricao: 'Chamado cancelado.',
+    status: 'error',
+    label: 'Cancelado',
+    color: 'grey'
+  },
+  
 ];
 
 const MeusChamados: React.FC = () => {
@@ -42,7 +55,7 @@ const MeusChamados: React.FC = () => {
           </div>
           <div className="flex justify-between items-center gap-2">
             <p className="flex-1">{item.descricao}</p>
-            <StatusIndicator type={item.status as any}>{item.label}</StatusIndicator>
+            <StatusIndicator colorOverride={item.color as any} type={item.status as any}>{item.label}</StatusIndicator>
           </div>
         </div>
       ))}

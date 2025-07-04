@@ -64,7 +64,7 @@ const BreadcrumbsComponent: React.FC = () => {
     });
 
   return (
-    <div className="py-2 px-6 bg-neutral-5 custom-breadcrumb">
+    <div className="flex py-2 px-6 bg-neutral-5 custom-breadcrumb h-full items-center w-full">
       <BreadcrumbGroup
         items={breadcrumbGroupItems}
         ariaLabel="Navegação hierárquica"

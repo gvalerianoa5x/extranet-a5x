@@ -49,6 +49,7 @@ const ModaisSelecao: React.FC<Props> = ({ onFinalizar }) => {
         };
 
         onFinalizar(selectedData);
+        window.location.hash = "#";
         fechar();
     };
 
