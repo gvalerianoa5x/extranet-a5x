@@ -1,39 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import './CarrosselBanner.css';
+import defaultImage from '../../../assets/image_2.png';
+import defaultBgImage from '../../../assets/bg-banner-01_.jpg';
 
 interface BannerItem {
   id: number;
   imageUrl: string;
+  backgroundImage: string;
   title: string;
   description: string;
   buttonLabel: string;
   buttonLink: string;
+  borderColors?: string[];
 }
 
 const mockBanners: BannerItem[] = [
   {
     id: 1,
-    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop',
+    imageUrl: defaultImage,
+    backgroundImage: defaultBgImage,
     title: 'Figma ipsum component variant main layer',
     description: 'Lorem ipsum dolor sit amet consectetur. Vitae nisl blandit enim vivamus. Nullam felis tortor fermentum eget suspendisse suspendisse augue dolor.',
     buttonLabel: 'Conheça mais',
-    buttonLink: '/action1'
+    buttonLink: '/action1',
+    borderColors: ['#0066CC', '#0080FF', '#33A3FF']
   },
   {
     id: 2,
-    imageUrl: 'https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=1073&auto=format&fit=crop',
+    imageUrl: defaultImage,
+    backgroundImage: defaultBgImage,
     title: 'Novos recursos para investidores',
     description: 'Conheça as novas ferramentas de análise disponíveis para aprimorar suas decisões de investimento.',
     buttonLabel: 'Ver recursos',
-    buttonLink: '/recursos'
+    buttonLink: '/recursos',
+    borderColors: ['#0066CC', '#0080FF', '#33A3FF']
   },
   {
     id: 3,
-    imageUrl: 'https://images.unsplash.com/photo-1639322537504-6427a16b0a28?q=80&w=1032&auto=format&fit=crop',
+    imageUrl: defaultImage,
+    backgroundImage: defaultBgImage,
     title: 'Prepare-se para o IPO',
     description: 'Informações exclusivas e análises detalhadas sobre as próximas ofertas públicas iniciais no mercado.',
     buttonLabel: 'Saiba mais',
-    buttonLink: '/ipos'
+    buttonLink: '/ipos',
+    borderColors: ['#0066CC', '#0080FF', '#33A3FF']
   }
 ];
 
@@ -72,10 +82,28 @@ const CarrosselBanner: React.FC = () => {
   
   return (
     <div className="carrossel-container">
-      <div className="carrossel-wrapper">        
+      <div className="carrossel-wrapper">
+        {/* Imagem da esquerda */}
+        <div 
+          className="carrossel-left-image"
+          style={{backgroundImage: `url(${currentBanner.imageUrl})`}}
+        />
+        
+        {/* Bordas coloridas */}
+        <div className="carrossel-borders">
+          {currentBanner.borderColors?.map((color, index) => (
+            <div 
+              key={index} 
+              className="border-stripe" 
+              style={{backgroundColor: color}}
+            />
+          ))}
+        </div>
+        
+        {/* Área principal de conteúdo */}
         <div 
           className="carrossel-content-area"
-          style={{backgroundImage: `url(${currentBanner.imageUrl})`}}
+          style={{backgroundImage: `url(${currentBanner.backgroundImage})`}}
         >
           <div className="carrossel-overlay">
             <div className="carrossel-content">
@@ -91,6 +119,7 @@ const CarrosselBanner: React.FC = () => {
           </div>
         </div>
                 
+        {/* Área de navegação com imagem de fundo */}
         <div 
           className="carrossel-nav-area"
           style={{backgroundImage: `url(${currentBanner.imageUrl})`}}

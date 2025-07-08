@@ -9,28 +9,55 @@
   width: 100%;
   height: 10rem; 
   display: flex;
-  gap: 0.8rem; 
+  gap: 0;
   margin-bottom: 1.875rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* Imagem da esquerda */
+.carrossel-left-image {
+  width: 15%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Bordas coloridas */
+.carrossel-borders {
+  width: 2%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.border-stripe {
+  flex: 1;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.border-stripe:hover {
+  transform: scaleX(1.1);
 }
 
 .carrossel-content-area {
   position: relative;
-  width: 93%; 
+  width: 76%;
   height: 100%;
-  border-radius: 0.75rem;
-  overflow: hidden;
   background-size: cover;
-  background-position: left center;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .carrossel-nav-area {
   position: relative;
-  width: 7%; 
+  width: 7%;
   height: 100%;
-  border-radius: 0.75rem;
-  overflow: hidden;
   background-size: cover;
-  background-position: right center;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,7 +71,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.3); 
+  background-color: rgba(255, 255, 255, 0.6); 
   z-index: 1;
 }
 
@@ -124,8 +151,16 @@
 }
 
 @media (max-width: 768px) {
+  .carrossel-left-image {
+    width: 20%;
+  }
+  
+  .carrossel-borders {
+    width: 3%;
+  }
+  
   .carrossel-content-area {
-    width: 90%;
+    width: 67%;
   }
   
   .carrossel-nav-area {
@@ -146,5 +181,15 @@
   
   .carrossel-description {
     font-size: 0.875rem;
+  }
+
+  .nav-button {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .nav-button svg {
+    width: 12px;
+    height: 12px;
   }
 }
