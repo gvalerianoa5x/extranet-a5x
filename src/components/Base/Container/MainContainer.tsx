@@ -11,8 +11,10 @@ import UltimasPaginas from "../Cards/UltimasPaginas";
 import AlertasDashboard from "../Cards/AlertasDashboard";
 import MeusChamados from "../Cards/MeusChamados";
 import ModaisSelecao from "../ModaisSelecao";
+import { useAuth } from "../../../contexts/AuthProvider";
 
 export default function MainContainer(){
+  const { token } = useAuth();
   const [exibirModais, setExibirModais] = useState(true);
   const [dadosSelecionados, setDadosSelecionados] = useState<{
     participantCode: any;
@@ -28,6 +30,8 @@ export default function MainContainer(){
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
+
+  console.log(token)
 
   return (
     <div className="flex flex-col h-screen">
