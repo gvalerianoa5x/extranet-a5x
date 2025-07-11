@@ -4,10 +4,8 @@ const apiBase = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'https://a5x-dev.4biz.one/4biz/webmvc/',
 });
 
-// Variável para armazenar o token global
 let globalAuthToken: string | null = null;
 
-// Função para definir o token globalmente
 export const setGlobalAuthToken = (token: string | null) => {
   globalAuthToken = token;
 };
@@ -28,13 +26,13 @@ apiBase.interceptors.request.use(
   }
 );
 
-// Interceptor para lidar com erros de autenticação
+// Erros
 apiBase.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       console.error('Token expirado ou inválido');
-      // Aqui você pode disparar um evento para solicitar novo token
+     // TODO algo para disparar uma renovação de token
       window.dispatchEvent(new CustomEvent('authTokenExpired'));
     }
     return Promise.reject(error);

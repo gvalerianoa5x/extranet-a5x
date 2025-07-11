@@ -27,7 +27,7 @@ export const useAuthToken = (): AuthTokenHook => {
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent<MessageData>) => {
-      // Verificar origem por segurança
+
       if (event.origin !== 'https://a5x-dev.4biz.one') {
         return;
       }
@@ -44,30 +44,27 @@ export const useAuthToken = (): AuthTokenHook => {
       }
     };
 
-    // Adicionar listener
+
     window.addEventListener('message', handleMessage);
 
-    // Verificar se está em iframe
+
     if (window.parent !== window) {
       console.log('Aplicação rodando dentro de iframe');
-      // Solicitar token da plataforma pai
       requestToken();
       
-      // Timeout para fallback
       const timeoutId = setTimeout(() => {
         if (isLoading) {
           setError('Timeout ao aguardar token da plataforma pai');
           setIsLoading(false);
         }
-      }, 5000); // 5 segundos timeout
+      }, 5000); // 5 sec
 
       return () => {
         window.removeEventListener('message', handleMessage);
         clearTimeout(timeoutId);
       };
     } else {
-      console.log('Aplicação rodando standalone');
-      // Fallback para localStorage quando não está em iframe
+      console.log('Aplicação rodando fora do iframe');
       const localToken = localStorage.getItem('HYPER-AUTH-TOKEN');
       if (localToken) {
         setToken(localToken);
