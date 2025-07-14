@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import StatusIndicator from '@cloudscape-design/components/status-indicator';
+import { getMyTickets } from '../../../services/chamadosService';
 
 const chamados = [
   {
@@ -46,6 +47,10 @@ const chamados = [
 ];
 
 const MeusChamados: React.FC = () => {
+  useEffect(() => {
+    const chamados = getMyTickets();
+    console.log(chamados)
+  }, [])
   return (
     <div className="flex flex-col gap-3 text-sm pt-1">
       {chamados.map((item, index) => (
