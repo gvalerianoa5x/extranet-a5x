@@ -1,4 +1,3 @@
-import apiLowCode from './apis/apiLowcode';
 import dataApi from './apis/apiBase';
 
 export const getMyTickets = async () => {
