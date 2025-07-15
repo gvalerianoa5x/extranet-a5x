@@ -11,6 +11,9 @@ import UltimasPaginas from "../Cards/UltimasPaginas";
 import AlertasDashboard from "../Cards/AlertasDashboard";
 import MeusChamados from "../Cards/MeusChamados";
 import ModaisSelecao from "../ModaisSelecao";
+import TarefasProducao from "../Cards/TarefasCard";
+import TarefasCard from "../Cards/TarefasCard";
+import { capitalizeFirst } from "../../../utils/formatText";
 
 export default function MainContainer(){
   const [exibirModais, setExibirModais] = useState(true);
@@ -80,6 +83,12 @@ export default function MainContainer(){
             <Card title="Meus chamados" icon={<MessageSquare size={16} />}>
               <MeusChamados />
             </Card>
+            {dadosSelecionados?.environmentType && 
+              <Card title={capitalizeFirst(`Tarefas ${dadosSelecionados?.environmentType?.value}`)} icon={<MessageSquare size={16} />}>
+                <TarefasCard environmentType={dadosSelecionados?.environmentType?.value}/>
+              </Card>
+            }
+            
           </div>
         </div>
       </div>
