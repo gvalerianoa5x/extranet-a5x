@@ -1,67 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './CarrosselBanner.css';
-import defaultImage from '../../../assets/image_2.png';
-import defaultBgImage from '../../../assets/bg-banner-01_.jpg';
-
-interface BannerItem {
-  id: number;
-  imageUrl: string;
-  backgroundImage: string;
-  title: string;
-  description: string;
-  buttonLabel: string;
-  buttonLink: string;
-  borderColors?: string[];
-}
-
-const mockBanners: BannerItem[] = [
-  {
-    id: 1,
-    imageUrl: defaultImage,
-    backgroundImage: defaultBgImage,
-    title: 'Figma ipsum component variant main layer',
-    description: 'Lorem ipsum dolor sit amet consectetur. Vitae nisl blandit enim vivamus. Nullam felis tortor fermentum eget suspendisse suspendisse augue dolor.',
-    buttonLabel: 'Conheça mais',
-    buttonLink: '/action1',
-    borderColors: ['#0066CC', '#0080FF', '#33A3FF']
-  },
-  {
-    id: 2,
-    imageUrl: defaultImage,
-    backgroundImage: defaultBgImage,
-    title: 'Novos recursos para investidores',
-    description: 'Conheça as novas ferramentas de análise disponíveis para aprimorar suas decisões de investimento.',
-    buttonLabel: 'Ver recursos',
-    buttonLink: '/recursos',
-    borderColors: ['#0066CC', '#0080FF', '#33A3FF']
-  },
-  {
-    id: 3,
-    imageUrl: defaultImage,
-    backgroundImage: defaultBgImage,
-    title: 'Prepare-se para o IPO',
-    description: 'Informações exclusivas e análises detalhadas sobre as próximas ofertas públicas iniciais no mercado.',
-    buttonLabel: 'Saiba mais',
-    buttonLink: '/ipos',
-    borderColors: ['#0066CC', '#0080FF', '#33A3FF']
-  }
-];
+import { getBanners } from '../../../services/carrosselBannerService';
+import type { BannerItem } from '../../../services/carrosselBannerService';
+import { useAuth } from '../../../contexts/AuthProvider';
 
 const CarrosselBanner: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [banners, setBanners] = useState<BannerItem[]>([]);
+  const { token, isLoading } = useAuth();
     
   useEffect(() => {
-    // Chamada API
-    // const fetchBanners = async () => {
-    //   const response = await fetch('/api/banners');
-    //   const data = await response.json();
-    //   setBanners(data);
-    // };
-    // fetchBanners();        
-    setBanners(mockBanners);
-  }, []);
+    if (isLoading || !token) return;
 
+    const fetchBanners = async () => {
+      try {
+        const response = await getBanners();
+        setBanners(response);
+      } catch (error) {
+        console.error('Erro ao carregar banners:', error);
+        setBanners([]);
+      }
+    };
+
+    fetchBanners();
+  }, [isLoading, token]);
+
+  // Funções de navegação do carrossel
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === banners.length - 1 ? 0 : prevIndex + 1
@@ -74,11 +38,20 @@ const CarrosselBanner: React.FC = () => {
     );
   };
 
+  // Retorna early se não há banners
   if (banners.length === 0) {
-    return null;
+    return <div>Carregando...</div>;
   }
 
   const currentBanner = banners[currentIndex];
+  
+  // Função para converter base64 em URL válida se necessário
+  const getImageUrl = (imageData: string) => {
+    if (imageData.startsWith('data:')) {
+      return imageData;
+    }
+    return `data:image/jpeg;base64,${imageData}`;
+  };
   
   return (
     <div className="w-full mx-auto relative mb-8">
@@ -88,7 +61,7 @@ const CarrosselBanner: React.FC = () => {
           {/* Container principal com fundo */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-lg"
-            style={{backgroundImage: `url(${currentBanner.backgroundImage})`}}
+            style={{backgroundImage: `url(${getImageUrl(currentBanner.backgroundImage)})`}}
           />
           
           {/* Camadas empilhadas e inclinadas */}
@@ -135,7 +108,7 @@ const CarrosselBanner: React.FC = () => {
               <div 
                 className="absolute left-0 top-0 w-60 md:w-72 rounded-lg transform -rotate-[22.5deg] origin-bottom-left bg-cover bg-center shadow-lg"
                 style={{
-                  backgroundImage: `url(${currentBanner.imageUrl})`,
+                  backgroundImage: `url(${getImageUrl(currentBanner.image)})`,
                   left: '-2.0rem',
                   top: '2.0rem',
                   height: '130%',
@@ -178,7 +151,7 @@ const CarrosselBanner: React.FC = () => {
           <div 
             className="relative bg-cover bg-center rounded-lg p-10 shadow-lg h-40 w-30"
             style={{
-              backgroundImage: `url(${currentBanner.imageUrl})`,
+              backgroundImage: `url(${getImageUrl(currentBanner.image)})`,
               filter: 'brightness(1.3) contrast(0.8)'
             }}
           >
