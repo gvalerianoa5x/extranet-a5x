@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import StatusIndicator from '@cloudscape-design/components/status-indicator';
+import StatusIndicator, { type StatusIndicatorProps } from '@cloudscape-design/components/status-indicator';
 import { getMyTickets } from '../../../services/chamadosService';
 import { useAuth } from '../../../contexts/AuthProvider';
 import { format, parseISO } from 'date-fns';
@@ -9,9 +9,9 @@ interface ChamadoProps {
   data: string;
   id: string;
   descricao: string;
-  status: 'pending' | 'success' | 'loading' | 'error';
+  status: StatusIndicatorProps.Type;
   label: string;
-  color: string;
+  color: StatusIndicatorProps.Color;
 }
 
 const MeusChamados: React.FC = () => {
@@ -49,7 +49,7 @@ const MeusChamados: React.FC = () => {
           </div>
           <div className="flex justify-between items-center gap-2">
             <p className="flex-1">{item.descricao}</p>
-            <StatusIndicator colorOverride={item.color as any} type={item.status as any}>
+            <StatusIndicator colorOverride={item.color} type={item.status}>
               {item.label}
             </StatusIndicator>
           </div>
