@@ -13,8 +13,9 @@ export interface BannerItem {
 
 export const getBanners = async (): Promise<BannerItem[]> => {
   try {
-    const response = await apiEsi.get('carrosselBanner');
-    return response.data;
+    const { data } = await apiEsi.get('carrosselBanner/flows');
+
+    return data.retorno;
   } catch (error) {
     console.error('Erro ao buscar banners:', error);
     throw error;
