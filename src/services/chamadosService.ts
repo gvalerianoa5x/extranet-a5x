@@ -17,6 +17,5 @@ export const getMyTickets = async () => {
     
   }
   const { data } = await apiEsi.post('meusChamados/flows', payload);
-  console.log(data)
-  return data;
+  return data.retorno;
 };
