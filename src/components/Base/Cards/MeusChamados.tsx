@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import { getMyTickets } from '../../../services/chamadosService';
 import { useAuth } from '../../../contexts/AuthProvider';
-/*
+
 interface ChamadoProps {
   data: string;
   id: string;
@@ -12,7 +12,7 @@ interface ChamadoProps {
   color: string;
 }
 
-
+/*
 const chamados = [
   {
     data: '11/03',
@@ -58,7 +58,7 @@ const chamados = [
 ];*/
 
 const MeusChamados: React.FC = () => {
-  const [chamados, setChamados] = useState<any[]>([]);
+  const [chamados, setChamados] = useState<ChamadoProps[]>([]);
 
   const { token, isLoading } = useAuth();
 
