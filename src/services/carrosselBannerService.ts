@@ -13,7 +13,10 @@ export interface BannerItem {
 
 export const getBanners = async (): Promise<BannerItem[]> => {
   try {
-    const { data } = await apiEsi.get('carrosselBanner/flows');
+    const payload = {
+        idBanner: "123"
+    }
+    const { data } = await apiEsi.post('carrosselBanner/flows', payload);
 
     return data.retorno;
   } catch (error) {
