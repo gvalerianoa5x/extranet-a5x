@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import { getMyTickets } from '../../../services/chamadosService';
+import { useAuth } from '../../../contexts/AuthProvider';
 /*
 interface ChamadoProps {
   data: string;
@@ -59,19 +60,18 @@ const chamados = [
 const MeusChamados: React.FC = () => {
   const [chamados, setChamados] = useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchChamados = async () => {
-      try {
-        const data = await getMyTickets();
-        console.log('Chamados recebidos:', data);
-        setChamados(data);
-      } catch (error) {
-        console.error('Erro ao buscar chamados:', error);
-      }
-    };
+  const { token, isLoading } = useAuth();
 
+  useEffect(() => {
+    if (isLoading || !token) return;
+  
+    const fetchChamados = async () => {
+      const data = await getMyTickets();
+      setChamados(data);
+    };
+  
     fetchChamados();
-  }, []);
+  }, [isLoading, token]);
   return (
     <div className="flex flex-col gap-3 text-sm pt-1">
       {chamados.map((item, index) => (

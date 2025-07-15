@@ -20,6 +20,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Atualizar token global quando o hook receber novo token
   useEffect(() => {
+    console.log('[AuthProvider] Novo token recebido:', token);
     setGlobalAuthToken(token);
   }, [token]);
 
