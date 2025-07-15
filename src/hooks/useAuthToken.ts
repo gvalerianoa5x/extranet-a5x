@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { setAuthToken, getAuthToken } from '../utils/authTokenManager';
 
 interface MessageData {
   type: string;
@@ -35,7 +36,7 @@ export const useAuthToken = (): AuthTokenHook => {
       if (event.data.type === 'AUTH_TOKEN') {
         if (event.data.token) {
           setToken(event.data.token);
-          localStorage.setItem('HYPER-AUTH-TOKEN', event.data.token); // <--- Aqui!
+          setAuthToken(event.data.token);
           setError(null);
           console.log('Token recebido da plataforma pai');
         } else {
@@ -66,7 +67,7 @@ export const useAuthToken = (): AuthTokenHook => {
       };
     } else {
       console.log('Aplicação rodando fora do iframe');
-      const localToken = localStorage.getItem('HYPER-AUTH-TOKEN');
+      const localToken = getAuthToken();
       if (localToken) {
         setToken(localToken);
         console.log('Token carregado do localStorage');
