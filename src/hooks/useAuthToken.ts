@@ -35,6 +35,7 @@ export const useAuthToken = (): AuthTokenHook => {
       if (event.data.type === 'AUTH_TOKEN') {
         if (event.data.token) {
           setToken(event.data.token);
+          localStorage.setItem('HYPER-AUTH-TOKEN', event.data.token); // <--- Aqui!
           setError(null);
           console.log('Token recebido da plataforma pai');
         } else {

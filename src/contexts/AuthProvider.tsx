@@ -21,7 +21,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Atualizar token global quando o hook receber novo token
   useEffect(() => {
     setGlobalAuthToken(token);
-    console.log(token)
   }, [token]);
 
   // Listener para token expirado
