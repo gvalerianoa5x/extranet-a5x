@@ -37,45 +37,57 @@ const atalhosFixos: Shortcut[] = [
 
 const Atalhos: React.FC = () => {
   return (
-    <div className="atalhos-container">
-      <div className="atalhos-header">
-        <div className="atalhos-list">
-          {atalhosFixos.map((s) => (
-            <a key={s.id} href={s.url} className="atalho-item">
-              <div className="atalho-icon-wrapper">
-                {typeof s.icon === "string" ? (
-                  <img src={s.icon} alt={s.name} className="atalho-icon" />
-                ) : (
-                  s.icon
-                )}
-              </div>
-              <div className="atalho-label">{s.name}</div>
-            </a>
-          ))}
+    <div className="atalhos-wrapper">
+      <div className="atalhos-container">
+        <div className="atalhos-header">
+          <div className="atalhos-list">
+            {atalhosFixos.map((s) => (
+              <a key={s.id} href={s.url} className="atalho-item">
+                <div className="atalho-icon-wrapper">
+                  {typeof s.icon === "string" ? (
+                    <img src={s.icon} alt={s.name} className="atalho-icon" />
+                  ) : (
+                    s.icon
+                  )}
+                </div>
+                <div className="atalho-label">{s.name}</div>
+              </a>
+            ))}
+          </div>
+          <button className="adicionar-atalho">Adicionar atalho</button>
         </div>
-
-        <button className="adicionar-atalho">Adicionar atalho</button>
       </div>
 
       <style>{`
+        .atalhos-wrapper {
+          width: 100%;
+          border-bottom: 1px solid #0000000D;
+          background-color: #EDEDED;
+          display: flex;
+          justify-content: center;
+        }
+
         .atalhos-container {
-          padding: 10px 16px;
-          background-color: #f5f5f5;
-          border-radius: 8px;
-          margin-bottom: 12px;
+          width: 1146px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          padding: 0 16px;
+          box-sizing: border-box;
         }
 
         .atalhos-header {
+          width: 100%;
           display: flex;
           justify-content: space-between;
-          align-items: center; 
-          flex-wrap: wrap;
+          align-items: center;
         }
 
         .atalhos-list {
           display: flex;
-          flex-wrap: wrap;
           gap: 20px;
+          margin-top: -14px;
+          margin-left: -51px;
         }
 
         .atalho-item {
@@ -122,13 +134,14 @@ const Atalhos: React.FC = () => {
         .adicionar-atalho {
           background: none;
           border: none;
-          color: #0056d2;
+          color: rgba(3, 59, 255, 1);
           text-decoration: underline;
           cursor: pointer;
           font-size: 14px;
           white-space: nowrap;
-          align-self: center; 
-          margin-top: 0; 
+          padding: 0;
+          font-family: inherit;
+          margin-top: -20px;
         }
 
         .adicionar-atalho:hover {
