@@ -14,7 +14,7 @@ export interface BannerItem {
 export const getBanners = async (): Promise<BannerItem[]> => {
   try {
     const payload = {
-        idBanner: "123"
+
     }
     const { data } = await apiEsi.post('carrosselBanner/flows', payload);
 
