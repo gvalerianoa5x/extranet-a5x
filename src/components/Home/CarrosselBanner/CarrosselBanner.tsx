@@ -61,7 +61,7 @@ const CarrosselBanner: React.FC = () => {
           {/* Container principal com fundo */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-lg"
-            style={{backgroundImage: `url(${getImageUrl(currentBanner.backgroundImage)})`}}
+            style={{backgroundImage: `url(${getImageUrl(currentBanner.backgroundimage)})`}}
           />
           
           {/* Camadas empilhadas e inclinadas */}
@@ -135,10 +135,10 @@ const CarrosselBanner: React.FC = () => {
               {/* Botão à direita - sempre próximo da borda */}
               <div className="relative z-20 flex items-center justify-end pr-12 flex-shrink-0">
                 <a 
-                  href={currentBanner.buttonLink} 
+                  href={currentBanner.buttonlink} 
                   className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 md:py-3.5 px-8 md:px-12 rounded-full transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg text-sm md:text-base whitespace-nowrap"
                 >
-                  {currentBanner.buttonLabel}
+                  {currentBanner.buttonlabel}
                 </a>
               </div>
             </div>
