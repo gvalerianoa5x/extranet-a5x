@@ -27,19 +27,18 @@ const AlertasDashboard: React.FC = () => {
   const renderIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="text-green-500" size={32} />;
+        return <CheckCircle className="text-green-500" size={24} />;
       case 'warning':
-        return <AlertCircle className="text-yellow-500" size={32} />;
+        return <AlertCircle className="text-yellow-500" size={24} />;
       case 'critical':
-        return <AlertTriangle className="text-red-500" size={32} />;
+        return <AlertTriangle className="text-red-500" size={24} />;
       case 'muted':
-        return <Info className="text-gray-300" size={32} />;
+        return <Info className="text-gray-300" size={24} />;
       default:
         return null;
     }
   };
-
-  // Retorna early se não há alertas
+  
   if (alertas.length === 0) {
     return <div>Carregando...</div>;
   }

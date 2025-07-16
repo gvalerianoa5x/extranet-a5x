@@ -12,11 +12,10 @@ export const getAlertas = async (): Promise<AlertaItem[]> => {
 
     }
     const { data } = await apiEsi.post('alertasBolsa/flows', payload);
-
-    // Mapear 'tipo' para 'type' se necessário
+    console.log('Dados recebidos:', data.retorno);
     return data.retorno.map((item: any) => ({
       id: item.id,
-      type: item.tipo || item.type, // Aceita tanto 'tipo' quanto 'type'
+      type: item.tipo || item.type, 
       message: item.message
     }));
   } catch (error) {
