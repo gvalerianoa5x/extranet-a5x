@@ -13,7 +13,12 @@ export const getAlertas = async (): Promise<AlertaItem[]> => {
     }
     const { data } = await apiEsi.post('alertasBolsa/flows', payload);
 
-    return data.retorno;
+    // Mapear 'tipo' para 'type' se necessário
+    return data.retorno.map((item: any) => ({
+      id: item.id,
+      type: item.tipo || item.type, // Aceita tanto 'tipo' quanto 'type'
+      message: item.message
+    }));
   } catch (error) {
     console.error('Erro ao buscar alertas:', error);
     throw error;
