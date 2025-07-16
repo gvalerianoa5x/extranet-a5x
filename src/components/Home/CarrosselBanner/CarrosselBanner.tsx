@@ -136,6 +136,8 @@ const CarrosselBanner: React.FC = () => {
               <div className="relative z-20 flex items-center justify-end pr-12 flex-shrink-0">
                 <a 
                   href={currentBanner.buttonlink} 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 md:py-3.5 px-8 md:px-12 rounded-full transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg text-sm md:text-base whitespace-nowrap"
                 >
                   {currentBanner.buttonlabel}
