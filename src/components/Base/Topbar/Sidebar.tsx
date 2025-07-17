@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -17,6 +17,7 @@ import {
   ChevronRight,
   ArrowLeft,
 } from "lucide-react";
+import { setPageCount } from "../../../services/ultimasPaginasService";
 
 // Tipagem do item de menu
 type MenuItem = {
@@ -24,11 +25,22 @@ type MenuItem = {
   href?: string;
   icon?: React.ReactNode;
   submenu?: MenuItem[];
+  countsPerUser: number;
 };
+
+interface LinkProps {
+  icon: React.ReactNode
+  title: string;
+  tag: string;
+  active?: boolean;
+  count: number;
+}
 
 interface SidebarProps {
   permissionRule: string;
   isCollapsed: boolean;
+  pages : LinkProps[];
+  onCountUpdated: () => void; 
 }
 
 // Tipagem dos tipos de menu ativos
@@ -38,58 +50,80 @@ type MenuType = "main-menu" | "submenu";
 export const menuItens: MenuItem[] = [
   {
     text: "Dashboards",
-    icon: <LayoutDashboard size={16} />,
+    icon: <LayoutDashboard name="LayoutDashboard" size={16} />,
     href: "#dashboard",
+    countsPerUser: 0
   },
   {
     text: "Usuários & Permissões",
     icon: <Users size={16} />,
     href: "#usuarios",
+    countsPerUser: 0
   },
-  { text: "Dados instituição", icon: <Landmark size={16} />, href: "#dados" },
-  { text: "Contas e vínculos", icon: <Building2 size={16} />, href: "#contas" },
-  { text: "Negociação", icon: <LineChart size={16} />, href: "#negociacao" },
+  { text: "Dados instituição", icon: <Landmark size={16} />, href: "#dados", countsPerUser: 0 },
+  { text: "Contas e vínculos", icon: <Building2 size={16} />, href: "#contas", countsPerUser: 0 },
+  { text: "Negociação", icon: <LineChart size={16} />, href: "#negociacao", countsPerUser: 0 },
   {
     text: "Riscos e garantias",
     icon: <ShieldCheck size={16} />,
     submenu: [
-      { text: "Garantia 1", href: "#garantia-1" },
-      { text: "Garantia 2", href: "#garantia-2" },
-      { text: "Risco Institucional", href: "#risco-inst" },
+      { text: "Garantia 1", href: "#garantia-1", countsPerUser: 0 },
+      { text: "Garantia 2", href: "#garantia-2", countsPerUser: 0},
+      { text: "Risco Institucional", href: "#risco-inst", countsPerUser: 0},
     ],
+    countsPerUser: 0
   },
   {
     text: "Alocação e posição",
     icon: <BarChartHorizontal size={16} />,
     href: "#alocacao",
+    countsPerUser: 0
   },
-  { text: "Liquidação", icon: <Banknote size={16} />, href: "#liquidacao" },
-  { text: "Financeiro", icon: <Wallet size={16} />, href: "#financeiro" },
-  { text: "Tarifação", icon: <FileBarChart2 size={16} />, href: "#tarifacao" },
-  { text: "Conectividade e infra", icon: <Server size={16} />, href: "#infra" },
-  { text: "Serviços", icon: <Settings size={16} />, href: "#servicos" },
-  { text: "Suporte", icon: <LifeBuoy size={16} />, href: "#suporte" },
+  { text: "Liquidação", icon: <Banknote size={16} />, href: "#liquidacao", countsPerUser: 0 },
+  { text: "Financeiro", icon: <Wallet size={16} />, href: "#financeiro", countsPerUser: 0 },
+  { text: "Tarifação", icon: <FileBarChart2 size={16} />, href: "#tarifacao", countsPerUser: 0 },
+  { text: "Conectividade e infra", icon: <Server size={16} />, href: "#infra", countsPerUser: 0 },
+  { text: "Serviços", icon: <Settings size={16} />, href: "#servicos", countsPerUser: 0 },
+  { text: "Suporte", icon: <LifeBuoy size={16} />, href: "#suporte", countsPerUser: 0 },
   {
     text: "Formador de mercado",
     icon: <DollarSign size={16} />,
     href: "#formador",
+    countsPerUser: 0
   },
 ];
 
-const Sidebar = ({ permissionRule, isCollapsed }: SidebarProps) => {
+const Sidebar = ({ permissionRule, isCollapsed, pages, onCountUpdated }: SidebarProps) => {
   const [hoveredItem, setHoveredItem] = useState<MenuItem | null>(null);
   const [activeMenu, setActiveMenu] = useState<"main" | "submenu">("main");
   const [currentSubmenu, setCurrentSubmenu] = useState<MenuItem[]>([]);
   const [submenuTitle, setSubmenuTitle] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmenuClick = (parentItem: MenuItem) => {
+  //Atualiza contagem de paginas visitadas no menu
+  useEffect(() => {
+    for(let j = 0; j < pages.length; j++){
+      for(let i=0; i < menuItens.length; i++){
+        if(pages[j].tag == menuItens[i].text)
+          menuItens[i].countsPerUser = pages[j].count
+      }
+    }
+    console.log("a")
+  }, [pages]);
+
+  const handleSubmenuClick = async (parentItem: MenuItem) => {
     if (parentItem.submenu && !isCollapsed) {
       setCurrentSubmenu(parentItem.submenu);
       setSubmenuTitle(parentItem.text);
       setActiveMenu("submenu");
       setHoveredItem(null);
     }
+    parentItem.countsPerUser++;
+    const countPageUpdate = parentItem.countsPerUser;
+    await setPageCount(parentItem, countPageUpdate);
+    
+    onCountUpdated();
+
   };
 
   const goBack = () => {

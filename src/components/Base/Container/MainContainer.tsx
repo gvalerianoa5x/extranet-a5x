@@ -12,7 +12,15 @@ import AlertasDashboard from "../Cards/AlertasDashboard";
 import MeusChamados from "../Cards/MeusChamados";
 import ModaisSelecao from "../ModaisSelecao";
 
+interface LinkProps {
+  icon: React.ReactNode
+  title: string;
+  tag: string;
+  active?: boolean;
+  count: number;
+}
 export default function MainContainer(){
+  const [menuPages, setMenuPages] = useState<LinkProps[]>([]);
   const [exibirModais, setExibirModais] = useState(true);
   const [dadosSelecionados, setDadosSelecionados] = useState<{
     participantCode: any;
@@ -24,6 +32,12 @@ export default function MainContainer(){
   function handleActionClick(): void {
     throw new Error("Function not implemented.");
   }
+
+  const [refreshPages, setRefreshPages] = useState(0);
+
+  const handleCountUpdated = () => {
+    setRefreshPages(prev => prev + 1);
+  };
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -53,10 +67,12 @@ export default function MainContainer(){
       </div>
 
       <div className="flex flex-1 bg-[#EDEDED]">
-        <Sidebar
-          permissionRule={`${dadosSelecionados?.participantCode.value}`}
-          isCollapsed={isSidebarCollapsed}
-        />
+      <Sidebar
+        permissionRule={`${dadosSelecionados?.participantCode.value}`}
+        isCollapsed={isSidebarCollapsed}
+        pages={menuPages}
+        onCountUpdated={handleCountUpdated}
+      />
 
         <div className="flex-1 p-5 overflow-auto space-y-5">
           <Atalhos />
@@ -72,7 +88,10 @@ export default function MainContainer(){
 
           <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
-              <UltimasPaginas />
+              <UltimasPaginas 
+              menuPages={setMenuPages}
+              refreshSignal={refreshPages}
+              />
             </Card>
             <Card title="Alertas da bolsa" icon={<Truck size={16} />}>
               <AlertasDashboard />
