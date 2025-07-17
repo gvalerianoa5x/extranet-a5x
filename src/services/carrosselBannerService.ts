@@ -3,12 +3,12 @@ import apiEsi from './apis/apiEsi';
 export interface BannerItem {
   id: number;
   image: string; // base64
-  backgroundImage: string; // base64
+  backgroundimage: string; // base64
   title: string;
   description: string;
-  buttonLabel: string;
-  buttonLink: string;
-  borderColors?: string[];
+  buttonlabel: string;
+  buttonlink: string;
+  bordercolors?: string[];
 }
 
 export const getBanners = async (): Promise<BannerItem[]> => {
