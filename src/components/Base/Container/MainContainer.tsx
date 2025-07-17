@@ -61,14 +61,9 @@ export default function MainContainer(){
         <div className="flex-1 p-5 overflow-auto space-y-5">
           <Atalhos />
 
-          <SnackBarAlert
-            buttonText="buttom"
-            onButtonClick={handleActionClick}
-            message={"Header message"}
-            type="warning"
-          />
+          <SnackBarAlert />
 
-          <CarrosselBanner />
+          {/* <CarrosselBanner /> */}
 
           <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
