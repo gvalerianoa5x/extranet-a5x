@@ -7,6 +7,7 @@ interface AuthContextType {
   isLoading: boolean;
   error: string | null;
   requestToken: () => void;
+  requestAlert: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,11 +17,10 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const { token, isLoading, error, requestToken } = useAuthToken();
+  const { token, isLoading, error, requestToken, requestAlert } = useAuthToken();
 
   // Atualizar token global quando o hook receber novo token
   useEffect(() => {
-    console.log('[AuthProvider] Novo token recebido:', token);
     setGlobalAuthToken(token);
   }, [token]);
 
@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [requestToken]);
 
   return (
-    <AuthContext.Provider value={{ token, isLoading, error, requestToken }}>
+    <AuthContext.Provider value={{ token, isLoading, error, requestToken, requestAlert }}>
       {children}
     </AuthContext.Provider>
   );

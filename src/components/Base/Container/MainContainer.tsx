@@ -80,44 +80,48 @@ export default function MainContainer() {
         </div>
         <BreadcrumbsComponent />
       </div>
-
       <div className="flex flex-1 bg-[#EDEDED]">
-      <Sidebar
-        permissionRule={`${dadosSelecionados?.participantCode.value}`}
-        isCollapsed={isSidebarCollapsed}
-        pages={menuPages}
-        onCountUpdated={handleCountUpdated}
-      />
-
-        <div className="flex-1 p-5 overflow-auto">
-          {isInSuporteView ? (
-            <MainContainerSuporte />
-          ) : (
-            <>
+        <Sidebar
+          permissionRule={`${dadosSelecionados?.participantCode.value}`}
+          isCollapsed={isSidebarCollapsed}
+          pages={menuPages}
+          onCountUpdated={handleCountUpdated}
+        />
+        <div className="flex-1 bg-white">
+          <div className="flex flex-col">
+            <div className="flex items-start">
               <Atalhos />
-              <SnackBarAlert
-                buttonText="Ação"
-                onButtonClick={() => { }}
-                message="Header message"
-                type="warning"
-              />
-              <CarrosselBanner />
-              <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
-                <UltimasPaginas 
-                  menuPages={setMenuPages}
-                  refreshSignal={refreshPages}
-                />
-                </Card>
-                <Card title="Alertas da bolsa" icon={<Truck size={16} />}>
-                  <AlertasDashboard />
-                </Card>
-                <Card title="Meus chamados" icon={<MessageSquare size={16} />}>
-                  <MeusChamados />
-                </Card>
+            </div>
+            <div className="px-5">
+                {isInSuporteView ? (
+                  <MainContainerSuporte />
+                ) : (
+                  <>
+                    <SnackBarAlert
+                      buttonText="Ação"
+                      onButtonClick={() => { }}
+                      message="Header message"
+                      type="warning"
+                    />
+                    <CarrosselBanner />
+                    <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                      <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
+                      <UltimasPaginas 
+                        menuPages={setMenuPages}
+                        refreshSignal={refreshPages}
+                      />
+                      </Card>
+                      <Card title="Alertas da bolsa" icon={<Truck size={16} />}>
+                        <AlertasDashboard />
+                      </Card>
+                      <Card title="Meus chamados" icon={<MessageSquare size={16} />}>
+                        <MeusChamados />
+                      </Card>
+                    </div>
+                  </>
+                )}
               </div>
-            </>
-          )}
+          </div>
         </div>
       </div>
 
