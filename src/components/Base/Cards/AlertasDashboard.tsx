@@ -9,7 +9,7 @@ const AlertasDashboard: React.FC = () => {
   const [alertas, setAlertas] = useState<AlertaItem[]>([]);
   const { token, isLoading } = useAuth();
 
-  const { idAlert, error, isLoading: isAlertLoading, requestAlert } = useWarnings();
+  const { idAlert, error, requestAlert } = useWarnings();
 
   // Enviar sinal para aplicação pai a cada 10 segundos
   useEffect(() => {
