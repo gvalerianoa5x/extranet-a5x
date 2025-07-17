@@ -1,5 +1,3 @@
-// src/contexts/WarningsProvider.tsx
-
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 interface WarningsContextData {
@@ -22,6 +20,7 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [error, setError] = useState<string | null>(null);
 
   const requestAlert = useCallback(() => {
+    console.log("tem alerta?")
     if (window.parent !== window) {
       window.parent.postMessage({ type: 'REQUEST_WEBHOOK_ALERT' }, 'https://a5x-dev.4biz.one');
     }
