@@ -3,11 +3,24 @@ import { AlertCircle, CheckCircle, Info, AlertTriangle } from 'lucide-react';
 import { getAlertas } from '../../../services/alertasBolsaService';
 import type { AlertaItem } from '../../../services/alertasBolsaService';
 import { useAuth } from '../../../contexts/AuthProvider';
+import { useWarnings } from '../../../hooks/useWarnings'; // <-- import do hook
 
 const AlertasDashboard: React.FC = () => {
   const [alertas, setAlertas] = useState<AlertaItem[]>([]);
   const { token, isLoading } = useAuth();
-    
+
+  const { idAlert, error, isLoading: isAlertLoading, requestAlert } = useWarnings();
+
+  // Enviar sinal para aplicação pai a cada 10 segundos
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      requestAlert();
+    }, 10000); // 10 segundos
+
+    return () => clearInterval(intervalId); // limpa intervalo no unmount
+  }, [requestAlert]);
+
+  // Carregar alertas se autenticado
   useEffect(() => {
     if (isLoading || !token) return;
 
@@ -38,7 +51,7 @@ const AlertasDashboard: React.FC = () => {
         return null;
     }
   };
-  
+
   if (alertas.length === 0) {
     return <div>Carregando...</div>;
   }
@@ -56,6 +69,20 @@ const AlertasDashboard: React.FC = () => {
           <span className="leading-snug">{alert.message}</span>
         </div>
       ))}
+
+      {/* Opcional: mostrar o idAlert recebido */}
+      {idAlert && (
+        <div className="text-xs text-blue-500 pt-2">
+          Último alerta da plataforma pai: {idAlert}
+        </div>
+      )}
+
+      {/* Opcional: mostrar erro */}
+      {error && (
+        <div className="text-xs text-red-500 pt-2">
+          Erro ao receber alerta: {error}
+        </div>
+      )}
     </div>
   );
 };

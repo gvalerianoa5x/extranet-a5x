@@ -4,7 +4,6 @@ import { setAuthToken, getAuthToken } from '../utils/authTokenManager';
 interface MessageData {
   type: string;
   token?: string;
-  idAlert?: number;
 }
 
 interface AuthTokenHook {
@@ -12,7 +11,6 @@ interface AuthTokenHook {
   isLoading: boolean;
   error: string | null;
   requestToken: () => void;
-  requestAlert: () => void;
 }
 
 export const useAuthToken = (): AuthTokenHook => {
@@ -24,14 +22,6 @@ export const useAuthToken = (): AuthTokenHook => {
     if (window.parent !== window) {
       window.parent.postMessage({
         type: 'REQUEST_TOKEN'
-      }, 'https://a5x-dev.4biz.one');
-    }
-  }, []);
-
-  const requestAlert = useCallback(() => {
-    if (window.parent !== window) {
-      window.parent.postMessage({
-        type: 'REQUEST_WEBHOOK_ALERT'
       }, 'https://a5x-dev.4biz.one');
     }
   }, []);
@@ -54,15 +44,6 @@ export const useAuthToken = (): AuthTokenHook => {
         }
         setIsLoading(false);
       }
-
-      if (event.data.type === 'WEBHOOK_ALERT') {
-        if (event.data.idAlert) {
-          console.log('Alerta da bolsa recebido' + event.data.idAlert);
-        } else {
-          setError('Alerta não encontrado na resposta');
-        }
-        setIsLoading(false);
-      }
     };
 
 
@@ -72,7 +53,7 @@ export const useAuthToken = (): AuthTokenHook => {
     if (window.parent !== window) {
       console.log('Aplicação rodando dentro de iframe');
       requestToken();
-      requestAlert();
+      
       const timeoutId = setTimeout(() => {
         if (isLoading) {
           setError('Timeout ao aguardar token da plataforma pai');
@@ -97,7 +78,7 @@ export const useAuthToken = (): AuthTokenHook => {
     }
 
     return () => window.removeEventListener('message', handleMessage);
-  }, [requestToken, isLoading, requestAlert]);
+  }, [requestToken, isLoading]);
 
-  return { token, isLoading, error, requestToken, requestAlert };
+  return { token, isLoading, error, requestToken };
 };
