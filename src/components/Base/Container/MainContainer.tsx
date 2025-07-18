@@ -78,10 +78,10 @@ export default function MainContainer() {
             <div className="flex items-start">
               <Atalhos />
             </div>
-            <div className="px-5">
+            <div className="p-7 flex flex-col space-y-4">
               <SnackBarAlert />
               <CarrosselBanner />
-              <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 <Card title="Últimas páginas visitadas" icon={<Clock size={16} />}>
                   <UltimasPaginas
                     menuPages={menuPages}
