@@ -53,7 +53,7 @@ const AlertasDashboard: React.FC = () => {
   };
 
   if (alertas.length === 0) {
-    return <div>Carregando...</div>;
+    return <div>Não há alertas para exibição...</div>;
   }
 
   return (
