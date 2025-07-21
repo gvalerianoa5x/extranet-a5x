@@ -3,10 +3,11 @@ import { AlertCircle, CheckCircle, Info, AlertTriangle } from 'lucide-react';
 import { getAlertas } from '../../../services/alertasBolsaService';
 import type { AlertaItem } from '../../../services/alertasBolsaService';
 import { useAuth } from '../../../contexts/AuthProvider';
-import { useWarnings } from '../../../hooks/useWarnings'; // <-- import do hook
+import { useWarnings } from '../../../hooks/useWarnings';
 
 const AlertasDashboard: React.FC = () => {
   const [alertas, setAlertas] = useState<AlertaItem[]>([]);
+  const [loading, setLoading] = useState(true); // Estado de loading
   const { token, isLoading } = useAuth();
 
   const { idAlert, error, requestAlert } = useWarnings();
@@ -15,9 +16,9 @@ const AlertasDashboard: React.FC = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       requestAlert();
-    }, 10000); // 10 segundos
+    }, 10000);
 
-    return () => clearInterval(intervalId); // limpa intervalo no unmount
+    return () => clearInterval(intervalId);
   }, [requestAlert]);
 
   // Carregar alertas se autenticado
@@ -25,12 +26,15 @@ const AlertasDashboard: React.FC = () => {
     if (isLoading || !token) return;
 
     const fetchAlertas = async () => {
+      setLoading(true); // Inicia loading
       try {
         const response = await getAlertas();
         setAlertas(response);
       } catch (error) {
         console.error('Erro ao carregar alertas:', error);
         setAlertas([]);
+      } finally {
+        setLoading(false); // Finaliza loading
       }
     };
 
@@ -52,6 +56,12 @@ const AlertasDashboard: React.FC = () => {
     }
   };
 
+  // Mostrar loading enquanto carrega
+  if (loading || isLoading) {
+    return <div>Carregando...</div>;
+  }
+
+  // Mostrar mensagem quando não há alertas
   if (alertas.length === 0) {
     return <div>Não há alertas para exibição...</div>;
   }
