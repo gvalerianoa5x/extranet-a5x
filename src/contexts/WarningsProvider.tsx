@@ -51,7 +51,6 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({
         setAlertas(alertas);
         setIdAlert(alertas[0].id);
         setError(null);
-        console.log('Alertas recebidos da API:', alertas);
       } else {
         setError('Nenhum alerta encontrado');
         setAlertas([]);
@@ -75,9 +74,7 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      console.log(event.origin)
-      console.log("fetch")
+    const handleMessage = () => {
       fetchAlertFromApi();
     };
 

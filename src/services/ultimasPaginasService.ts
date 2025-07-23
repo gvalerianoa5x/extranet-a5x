@@ -39,7 +39,5 @@ export const setPageCount = async (parentItem: MenuItem, count:number) => {
   };
 
   const { data } = await apiEsi.post('atualiza_ultimas_paginas/flows', payload);
-  console.log(data)
   return data.retorno
-  //console.log("Pagina X: contagem:"+ count )
 };

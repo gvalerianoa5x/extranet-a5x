@@ -38,7 +38,6 @@ export const useAuthToken = (): AuthTokenHook => {
           setToken(event.data.token);
           setAuthToken(event.data.token);
           setError(null);
-          console.log('Token recebido da plataforma pai');
         } else {
           setError('Token não encontrado na resposta');
         }
@@ -51,7 +50,6 @@ export const useAuthToken = (): AuthTokenHook => {
 
 
     if (window.parent !== window) {
-      console.log('Aplicação rodando dentro de iframe');
       requestToken();
       
       const timeoutId = setTimeout(() => {
@@ -66,11 +64,9 @@ export const useAuthToken = (): AuthTokenHook => {
         clearTimeout(timeoutId);
       };
     } else {
-      console.log('Aplicação rodando fora do iframe');
       const localToken = getAuthToken();
       if (localToken) {
         setToken(localToken);
-        console.log('Token carregado do localStorage');
       } else {
         setError('Token não encontrado no localStorage');
       }
