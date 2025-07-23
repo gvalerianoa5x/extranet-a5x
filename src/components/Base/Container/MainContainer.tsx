@@ -11,6 +11,7 @@ import UltimasPaginas from '../Cards/UltimasPaginas';
 import AlertasDashboard from '../Cards/AlertasDashboard';
 import MeusChamados from '../Cards/MeusChamados';
 import ModaisSelecao from '../ModaisSelecao';
+import { CXTopNavigation } from '../../../../../connect-x-design-system/dist/components/CXTopNavigation/CXTopNavigation'
 
 interface LinkProps {
   icon: React.ReactNode;
@@ -49,6 +50,14 @@ export default function MainContainer() {
 
   return (
     <div className="flex flex-col h-screen">
+     {/*<CXTopNavigation
+      brokerImage={'/corretora.png'} 
+      brokerSelectAction={() => { } } 
+      brokerSelected='Rico Investimentos' 
+      submitInputSearchParam={() => {} } 
+      placeholderSearchInput={'Pesquise recursos, documentos, produtos e muito mais'} 
+      environmentSelected={'Ambiente Desenvolvimento'} 
+      ariaLabel={'Rico Investimentos'} />*/}
       <Topbar
         onClickTitle={() => setExibirModais(true)}
         titulo={dadosSelecionados?.participantCode.label ?? ''}

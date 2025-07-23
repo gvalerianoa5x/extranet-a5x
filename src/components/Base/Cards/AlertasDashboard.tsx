@@ -1,41 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { AlertCircle, CheckCircle, Info, AlertTriangle } from 'lucide-react';
-import { getAlertas } from '../../../services/alertasBolsaService';
-import type { AlertaItem } from '../../../services/alertasBolsaService';
+import React from 'react';
+import {
+  AlertCircle,
+  CheckCircle,
+  Info,
+  AlertTriangle,
+} from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthProvider';
-import { useWarnings } from '../../../hooks/useWarnings'; // <-- import do hook
+import { useWarnings } from '../../../contexts/WarningsProvider';
+
 
 const AlertasDashboard: React.FC = () => {
-  const [alertas, setAlertas] = useState<AlertaItem[]>([]);
-  const { token, isLoading } = useAuth();
-
-  const { idAlert, error, requestAlert } = useWarnings();
-
-  // Enviar sinal para aplicação pai a cada 10 segundos
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      requestAlert();
-    }, 10000); // 10 segundos
-
-    return () => clearInterval(intervalId); // limpa intervalo no unmount
-  }, [requestAlert]);
-
-  // Carregar alertas se autenticado
-  useEffect(() => {
-    if (isLoading || !token) return;
-
-    const fetchAlertas = async () => {
-      try {
-        const response = await getAlertas();
-        setAlertas(response);
-      } catch (error) {
-        console.error('Erro ao carregar alertas:', error);
-        setAlertas([]);
-      }
-    };
-
-    fetchAlertas();
-  }, [isLoading, token]);
+  const { token, isLoading: isAuthLoading } = useAuth();
+  const { alertas, idAlert, error, isLoading } = useWarnings();
 
   const renderIcon = (type: string) => {
     switch (type) {
@@ -52,8 +28,24 @@ const AlertasDashboard: React.FC = () => {
     }
   };
 
+  if (isAuthLoading || !token) {
+    return <div>Verificando autenticação...</div>;
+  }
+
+  if (isLoading) {
+    return <div>Carregando alertas...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-sm text-red-500">
+        Erro ao carregar alertas: {error}
+      </div>
+    );
+  }
+
   if (alertas.length === 0) {
-    return <div>Carregando...</div>;
+    return <div className="text-sm text-gray-500">Nenhum alerta disponível.</div>;
   }
 
   return (
@@ -62,7 +54,9 @@ const AlertasDashboard: React.FC = () => {
         <div
           key={alert.id}
           className={`flex items-start gap-2 ${
-            alert.type === 'muted' ? 'text-gray-400 line-through' : 'text-gray-800'
+            alert.type === 'muted'
+              ? 'text-gray-400 line-through'
+              : 'text-gray-800'
           }`}
         >
           {renderIcon(alert.type)}
@@ -70,17 +64,9 @@ const AlertasDashboard: React.FC = () => {
         </div>
       ))}
 
-      {/* Opcional: mostrar o idAlert recebido */}
       {idAlert && (
         <div className="text-xs text-blue-500 pt-2">
           Último alerta da plataforma pai: {idAlert}
-        </div>
-      )}
-
-      {/* Opcional: mostrar erro */}
-      {error && (
-        <div className="text-xs text-red-500 pt-2">
-          Erro ao receber alerta: {error}
         </div>
       )}
     </div>

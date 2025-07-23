@@ -11,28 +11,22 @@ interface Shortcut {
 const atalhosFixos: Shortcut[] = [
   {
     id: "1",
-    name: "Short link",
+    name: "Dashboards",
     icon: <Truck size={16} />,
     url: "/dashboard",
   },
   {
     id: "2",
-    name: "Short link",
+    name: "Suporte",
     icon: <Truck size={16} />,
     url: "/relatorios",
   },
   {
     id: "3",
-    name: "Short link",
+    name: "Financeiro",
     icon: <Truck size={16} />,
     url: "/usuarios",
-  },
-  {
-    id: "4",
-    name: "Short link",
-    icon: <Truck size={16} />,
-    url: "/configuracoes",
-  },
+  }
 ];
 
 const Atalhos: React.FC = () => {

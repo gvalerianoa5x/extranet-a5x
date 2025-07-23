@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@a5x/connect-x": "^0.0.4",
     "@cloudscape-design/chat-components": "^1.0.53",
     "@cloudscape-design/components": "^3.0.993",
     "@cloudscape-design/design-tokens": "^3.0.58",

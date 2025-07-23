@@ -1,9 +1,18 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
+import { getAlertas, type AlertaItem } from '../services/alertasBolsaService';
 
 interface WarningsContextData {
   idAlert: number | null;
   error: string | null;
   isLoading: boolean;
+  alertas: AlertaItem[];
   requestAlert: () => void;
 }
 
@@ -11,18 +20,57 @@ const WarningsContext = createContext<WarningsContextData>({
   idAlert: null,
   error: null,
   isLoading: true,
+  alertas: [],
   requestAlert: () => {},
 });
 
-export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [idAlert, setIdAlert] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [alertas, setAlertas] = useState<AlertaItem[]>([]);
+
+  const lastFetchRef = useRef<number>(0);
+
+  const fetchAlertFromApi = useCallback(async () => {
+    const now = Date.now();
+    if (now - lastFetchRef.current < 5000) {
+      // Evita múltiplas execuções seguidas
+      return;
+    }
+  
+    lastFetchRef.current = now;
+  
+    try {
+      setIsLoading(true);
+      const alertas = await getAlertas();
+  
+      if (alertas.length > 0) {
+        setAlertas(alertas);
+        setIdAlert(alertas[0].id);
+        setError(null);
+        console.log('Alertas recebidos da API:', alertas);
+      } else {
+        setError('Nenhum alerta encontrado');
+        setAlertas([]);
+      }
+    } catch (err) {
+      console.error('Erro ao buscar alertas:', err);
+      setError('Erro ao buscar alertas');
+      setAlertas([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const requestAlert = useCallback(() => {
-    console.log("tem alerta?")
     if (window.parent !== window) {
-      window.parent.postMessage({ type: 'REQUEST_WEBHOOK_ALERT' }, 'https://a5x-dev.4biz.one');
+      window.parent.postMessage(
+        { type: 'REQUEST_WEBHOOK_ALERT' },
+        'https://a5x-dev.4biz.one'
+      );
     }
   }, []);
 
@@ -30,44 +78,35 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== 'https://a5x-dev.4biz.one') return;
 
+      if (event.data?.type === 'REQUEST_WEBHOOK_ALERT') {
+        return;
+      }
+
       if (event.data?.type === 'WEBHOOK_ALERT') {
-        if (event.data.idAlert) {
-          setIdAlert(event.data.idAlert);
-          console.log('Alerta da bolsa recebido: ' + event.data.idAlert);
-        } else {
-          setError('Alerta não encontrado na resposta');
-        }
-        setIsLoading(false);
+        fetchAlertFromApi();
       }
     };
 
     window.addEventListener('message', handleMessage);
 
-    requestAlert(); // chamada inicial imediata
+    //init
+    requestAlert();
 
-    const timeoutId = setTimeout(() => {
-      if (isLoading) {
-        setError('Timeout ao aguardar alerta da plataforma pai');
-        setIsLoading(false);
-      }
-    }, 5000);
-
+    // Pergunta se existe alertas novos
     const intervalId = setInterval(() => {
-      if (document.visibilityState === 'visible') {
-        requestAlert();
-      }
-    }, 10000);
-    
+      requestAlert();
+    }, 10000); // 10 segundos
 
     return () => {
       window.removeEventListener('message', handleMessage);
-      clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
-  }, [requestAlert, isLoading]);
+  }, [fetchAlertFromApi, requestAlert]);
 
   return (
-    <WarningsContext.Provider value={{ idAlert, error, isLoading, requestAlert }}>
+    <WarningsContext.Provider
+      value={{ idAlert, error, isLoading, alertas, requestAlert }}
+    >
       {children}
     </WarningsContext.Provider>
   );
