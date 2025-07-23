@@ -11,7 +11,7 @@ import UltimasPaginas from '../Cards/UltimasPaginas';
 import AlertasDashboard from '../Cards/AlertasDashboard';
 import MeusChamados from '../Cards/MeusChamados';
 import ModaisSelecao from '../ModaisSelecao';
-import { CXTopNavigation } from '../../../../../connect-x-design-system/dist/components/CXTopNavigation/CXTopNavigation'
+//import { CXTopNavigation } from '../../../../../connect-x-design-system/dist/components/CXTopNavigation/CXTopNavigation'
 
 interface LinkProps {
   icon: React.ReactNode;
