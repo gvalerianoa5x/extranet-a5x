@@ -76,14 +76,14 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== 'https://a5x-dev.4biz.one') return;
-
-      if (event.data?.type === 'REQUEST_WEBHOOK_ALERT') {
-        return;
-      }
+      //if (event.origin !== 'https://a5x-dev.4biz.one') return;
 
       if (event.data?.type === 'WEBHOOK_ALERT') {
         fetchAlertFromApi();
+      }
+
+      if (event.data?.type === 'REQUEST_WEBHOOK_ALERT') {
+        return;
       }
     };
 
