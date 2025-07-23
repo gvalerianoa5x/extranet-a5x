@@ -78,6 +78,7 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== 'https://a5x-dev.4biz.one') return;
 
+      console.log("entrou no fetch")
       fetchAlertFromApi();
     };
 
