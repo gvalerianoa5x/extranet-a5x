@@ -11,7 +11,7 @@ import { useWarnings } from '../../../contexts/WarningsProvider';
 
 const AlertasDashboard: React.FC = () => {
   const { token, isLoading: isAuthLoading } = useAuth();
-  const { alertas, idAlert, error, isLoading } = useWarnings();
+  const { alertas, idAlert, error } = useWarnings();
 
   const renderIcon = (type: string) => {
     switch (type) {
@@ -30,10 +30,6 @@ const AlertasDashboard: React.FC = () => {
 
   if (isAuthLoading || !token) {
     return <div>Verificando autenticação...</div>;
-  }
-
-  if (isLoading) {
-    return <div>Carregando alertas...</div>;
   }
 
   if (error) {
