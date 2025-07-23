@@ -76,7 +76,7 @@ export const WarningsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== 'https://a5x-dev.4biz.one'){
+      if (event.origin !== 'https://extranet-a5x-dev.vercel.app/'){
         return;
       } 
       fetchAlertFromApi();
