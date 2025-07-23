@@ -41,11 +41,11 @@ const MeusChamados: React.FC = () => {
   }, [isLoading, token]);
 
   return (
-    <div className="flex flex-col gap-3 text-sm pt-1">
+    <div className="flex flex-col gap-3 text-sm pt-1 max-h-96 overflow-y-auto">
       {chamados.map((item, index) => (
         <div key={index} className="flex flex-col gap-1">
           <div className="text-gray-500">
-            {item.data} <strong>#{item.id}</strong>
+            {item.data} <strong>| <a href={`https://a5x-dev.4biz.one/workflow/pages/serviceRequestIncident/serviceRequestIncident.load?iframe=true#/request?idRequest=${item.id}`} target='_blank'>#{item.id}</a></strong>
           </div>
           <div className="flex justify-between items-center gap-2">
             <p className="flex-1">{item.descricao}</p>

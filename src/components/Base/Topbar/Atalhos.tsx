@@ -11,28 +11,22 @@ interface Shortcut {
 const atalhosFixos: Shortcut[] = [
   {
     id: "1",
-    name: "Short link",
+    name: "Dashboards",
     icon: <Truck size={16} />,
     url: "/dashboard",
   },
   {
     id: "2",
-    name: "Short link",
+    name: "Suporte",
     icon: <Truck size={16} />,
     url: "/relatorios",
   },
   {
     id: "3",
-    name: "Short link",
+    name: "Financeiro",
     icon: <Truck size={16} />,
     url: "/usuarios",
-  },
-  {
-    id: "4",
-    name: "Short link",
-    icon: <Truck size={16} />,
-    url: "/configuracoes",
-  },
+  }
 ];
 
 const Atalhos: React.FC = () => {
@@ -64,11 +58,11 @@ const Atalhos: React.FC = () => {
           border-bottom: 1px solid #0000000D;
           background-color: #EDEDED;
           display: flex;
-          justify-content: center;
+          align-items:center;
         }
 
         .atalhos-container {
-          width: 1146px;
+          width: 100%;
           height: 44px;
           display: flex;
           align-items: center;
@@ -86,8 +80,6 @@ const Atalhos: React.FC = () => {
         .atalhos-list {
           display: flex;
           gap: 20px;
-          margin-top: -14px;
-          margin-left: -51px;
         }
 
         .atalho-item {
@@ -141,7 +133,6 @@ const Atalhos: React.FC = () => {
           white-space: nowrap;
           padding: 0;
           font-family: inherit;
-          margin-top: -20px;
         }
 
         .adicionar-atalho:hover {

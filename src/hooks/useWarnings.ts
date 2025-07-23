@@ -1,27 +1,27 @@
 import { useState, useEffect, useCallback } from 'react';
-import { setAuthToken, getAuthToken } from '../utils/authTokenManager';
 
 interface MessageData {
   type: string;
-  token?: string;
+  idAlert?: number;
 }
 
-interface AuthTokenHook {
-  token: string | null;
+interface WarningsHookProps {
+  idAlert: number | null;
   isLoading: boolean;
   error: string | null;
-  requestToken: () => void;
+
+  requestAlert: () => void;
 }
 
-export const useAuthToken = (): AuthTokenHook => {
-  const [token, setToken] = useState<string | null>(null);
+export const useWarnings = (): WarningsHookProps => {
+  const [idAlert, setIdAlert] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const requestToken = useCallback(() => {
+  const requestAlert = useCallback(() => {
     if (window.parent !== window) {
       window.parent.postMessage({
-        type: 'REQUEST_TOKEN'
+        type: 'REQUEST_WEBHOOK_ALERT'
       }, 'https://a5x-dev.4biz.one');
     }
   }, []);
@@ -33,13 +33,12 @@ export const useAuthToken = (): AuthTokenHook => {
         return;
       }
 
-      if (event.data.type === 'AUTH_TOKEN') {
-        if (event.data.token) {
-          setToken(event.data.token);
-          setAuthToken(event.data.token);
-          setError(null);
+      if (event.data.type === 'WEBHOOK_ALERT') {
+        if (event.data.idAlert) {
+          setIdAlert(event.data.idAlert)
+          console.log('Alerta da bolsa recebido' + event.data.idAlert);
         } else {
-          setError('Token não encontrado na resposta');
+          setError('Alerta não encontrado na resposta');
         }
         setIsLoading(false);
       }
@@ -48,13 +47,11 @@ export const useAuthToken = (): AuthTokenHook => {
 
     window.addEventListener('message', handleMessage);
 
-
     if (window.parent !== window) {
-      requestToken();
-      
+      requestAlert();
       const timeoutId = setTimeout(() => {
         if (isLoading) {
-          setError('Timeout ao aguardar token da plataforma pai');
+          setError('Timeout ao aguardar alerta da plataforma pai');
           setIsLoading(false);
         }
       }, 5000); // 5 sec
@@ -63,18 +60,10 @@ export const useAuthToken = (): AuthTokenHook => {
         window.removeEventListener('message', handleMessage);
         clearTimeout(timeoutId);
       };
-    } else {
-      const localToken = getAuthToken();
-      if (localToken) {
-        setToken(localToken);
-      } else {
-        setError('Token não encontrado no localStorage');
-      }
-      setIsLoading(false);
     }
 
     return () => window.removeEventListener('message', handleMessage);
-  }, [requestToken, isLoading]);
+  }, [isLoading, requestAlert]);
 
-  return { token, isLoading, error, requestToken };
+  return { isLoading, error, requestAlert, idAlert };
 };
