@@ -48,11 +48,6 @@ const AlertasDashboard: React.FC = () => {
     return <div className="text-sm text-gray-500">Nenhum alerta disponível.</div>;
   }
 
-  // Mostrar mensagem quando não há alertas
-  if (alertas.length === 0) {
-    return <div>Não há alertas para exibição...</div>;
-  }
-
   return (
     <div className="space-y-3 text-sm pt-1">
       {alertas.map((alert) => (
